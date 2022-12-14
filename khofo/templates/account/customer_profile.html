@@ -1,0 +1,101 @@
+{% extends "account/profile_base.html" %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block customer_profile %}
+
+    {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+        <!-- Short Edit -->
+        <div class="card" style="padding: 10px">
+            <div class="row">
+                <div class="col-sm-6 -pam">
+                    <article class="card-b -fh -df -d-co">
+                        <header class="hdr -df -i-ctr -j-bet"><h2
+                                class="-upp -fs14 -m -phm">{% trans 'Account details' %}</h2>
+                            <a class="btn _def _i _rnd _md -maxs" aria-label="Edit Account" href="/ar/user/profile/account/">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a></header>
+                        <div class="-df -d-co -i-start -fg1 -pas"><p class="-fs16 -phs -pts">{{ user.username }}</p>
+                            <p class="-gy5 -pas -wb-ba">{{ user.email }}</p></div>
+                        <a class="btn _def -me-start -mas"
+                           href="/ar/user/profile/account/changePassword/">{% trans 'Change Password' %}</a>
+                    </article>
+                </div>
+                {% if buyer_address %}
+                    <div class="col-sm-6 -pam">
+                        <article class="card-b -fh -df -d-co">
+                            <header class="hdr -df -i-ctr -j-bet"><h2
+                                    class="-upp -fs14 -m -phm">{% trans 'Address Book' %}</h2>
+                                <a class="btn _def _i _rnd _md -maxs" aria-label="Edit Account"
+                                   href="/ar/user/profile/address/">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a></header>
+                            <div class="-df -d-co -i-start -fg1 -pas">
+                                {% trans 'Your default shipping address' %}:
+
+                                <p class="-gy5 -pas -wb-ba">
+                                    {{ buyer_address.user.username }}<br>
+
+                                    {{ buyer_address.address }}<br>
+
+                                    {{ buyer_address.country }}, {{ buyer_address.region }}, {{ buyer_address.city }}<br>
+
+                                    {{ buyer_address.zip_code }}<br>
+                                    {{ buyer_address.mobile }}<br>
+                                </p></div>
+                        </article>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Short Edit -->
+        <div class="card" style="padding: 10px">
+            <div class="row">
+                <div class="col-sm-6 -pam">
+                    <article class="card-b -fh -df -d-co">
+                        <header class="hdr -df -i-ctr -j-bet"><h2
+                                class="-upp -fs14 -m -phm">{% trans 'Account details' %}</h2>
+                            <a
+                                    class="btn _def _i _rnd _md -maxs" aria-label="Edit Account"
+                                    href="/en/user/profile/account/">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a></header>
+                        <div class="-df -d-co -i-start -fg1 -pas"><p class="-fs16 -phs -pts">{{ user.username }}</p>
+                            <p class="-gy5 -pas -wb-ba">{{ user.email }}</p></div>
+                        <a class="btn _def -me-start -mas"
+                           href="/en/user/profile/account/changePassword/">{% trans 'Change Password' %}</a>
+                    </article>
+                </div>
+                {% if buyer_address %}
+                    <div class="col-sm-6 -pam">
+                        <article class="card-b -fh -df -d-co">
+                            <header class="hdr -df -i-ctr -j-bet"><h2
+                                    class="-upp -fs14 -m -phm">{% trans 'Address Book' %}</h2>
+                                <a class="btn _def _i _rnd _md -maxs" aria-label="Edit Account"
+                                   href="/en/user/profile/address/">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </a></header>
+                            <div class="-df -d-co -i-start -fg1 -pas">
+                                {% trans 'Your default shipping address' %}:
+
+                                <p class="-gy5 -pas -wb-ba">
+                                    {{ buyer_address.user.username }}<br>
+
+                                    {{ buyer_address.address }}<br>
+
+                                    {{ buyer_address.country }}, {{ buyer_address.region }}, {{ buyer_address.city }}<br>
+
+                                    {{ buyer_address.zip_code }}<br>
+                                    {{ buyer_address.mobile }}<br>
+                                </p></div>
+                        </article>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

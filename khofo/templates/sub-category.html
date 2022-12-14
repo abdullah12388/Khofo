@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mathfilters %}
+{% load my_filters %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block sub-category %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/sub-category.css' %}">
+
+    <div class="row">
+        <div class="col-md-10">
+            <h1 style="text-align: center">
+                {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                    {{ products.object_list.0.sub_category.name_ar }}
+                {% else %}
+                    {{ products.object_list.0.sub_category.name }}
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div id="singleSlider" class="gallery paginated_gallery" style="width: 100%;">
+                <div class="gallery_scroller style-2 scrollbar-2">
+                    {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                        {% for offer in offers %}
+                            <div>
+                                <a href="/ar/productHome/product/{{ offer.product.id }}">
+                                    <img src="{{ offer.image.url }}" alt="offer image">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for offer in offers %}
+                            <div>
+                                <a href="/en/productHome/product/{{ offer.product.id }}">
+                                    <img src="{{ offer.image.url }}" alt="offer image">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <span class="btn prev" aria-hidden="true"></span>
+                <span class="btn next" aria-hidden="true"></span>
+            </div>
+        </div>
+        <div class="col-md-2 ads_menu" id="displayAds" style="overflow: hidden">
+            <img alt="ads image" class="ads-img" src="..">
+            <video autoplay class="ads-img" aria-hidden="true"></video>
+        </div>
+    </div>
+
+    <!-- Sort By -->
+    <div class="row container-fluid filter-page-btn">
+        <div class="col-md-6">
+            <div class="form-group sort-by">
+                <div class="select">
+                    <select class="sort-by-select" name="slct" id="slct" onchange="location = this.value;" id="sort"
+                            aria-label="sort_by">
+                        {% if request.GET.sort %}
+                            {% if request.GET.sort == 'n' %}
+                                <option disabled>{% trans 'Sort By' %}</option>
+                                <option selected value="?sort=n">{% trans 'Newest' %}</option>
+                                <option value="?sort=l">{% trans 'Lowest Price' %}</option>
+                                <option value="?sort=h">{% trans 'Highest Price' %}</option>
+                                {% elif request.GET.sort == 'l' %}
+                                <option disabled>{% trans 'Sort By' %}</option>
+                                <option value="?sort=n">{% trans 'Newest' %}</option>
+                                <option selected value="?sort=l">{% trans 'Lowest Price' %}</option>
+                                <option value="?sort=h">{% trans 'Highest Price' %}</option>
+                                {% elif request.GET.sort == 'h' %}
+                                <option disabled>{% trans 'Sort By' %}</option>
+                                <option value="?sort=n">{% trans 'Newest' %}</option>
+                                <option value="?sort=l">{% trans 'Lowest Price' %}</option>
+                                <option selected value="?sort=h">{% trans 'Highest Price' %}</option>
+                            {% else %}
+                                <option selected disabled>{% trans 'Sort By' %}</option>
+                                <option value="?sort=n">{% trans 'Newest' %}</option>
+                                <option value="?sort=l">{% trans 'Lowest Price' %}</option>
+                                <option value="?sort=h">{% trans 'Highest Price' %}</option>
+                            {% endif %}
+                        {% else %}
+                            <option selected disabled>{% trans 'Sort By' %}</option>
+                            <option value="?sort=n">{% trans 'Newest' %}</option>
+                            <option value="?sort=l">{% trans 'Lowest Price' %}</option>
+                            <option value="?sort=h">{% trans 'Highest Price' %}</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 go-filter-page-btn">
+            {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                <a href="/ar/productHome/category/{{ products.object_list.0.category.id }}/subcategoryrow/{{ products.object_list.0.sub_category.id }}/products/">
+                    <button class="btn login-btn">{% trans 'Go To Filter Page' %}</button>
+                </a>
+            {% else %}
+                <a href="/en/productHome/category/{{ products.object_list.0.category.id }}/subcategoryrow/{{ products.object_list.0.sub_category.id }}/products/">
+                    <button class="btn login-btn">{% trans 'Go To Filter Page' %}</button>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row" style="margin-bottom: 28px">
+                {% for product in products %}
+                    <div class="col-md-3 text-center">
+                        <div class="card" style="margin: 5px auto">
+                            <div class="card-body">
+                                <a class="hover_black" href="{% url 'products:product_details' product.id %}">
+                                    <div class="text-center grid-product-img">
+                                        <img alt="product img" class="" src="{{ product.main_img.url }}"
+                                             style="max-height: 100%; max-width: 100%;">
+                                    </div>
+                                </a>
+                                {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                                    <a class="hover_black" href="/ar/productHome/product/{{ product.id }}/">
+                                        <h5 class="card-title">{{ product.name_ar }}</h5>
+                                    </a>
+                                    <p class="card-text" style="overflow: hidden;max-height: 15ch;">
+                                        {{ product.short_description_ar }}</p>
+                                    <a class="btn login-btn border-radius"
+                                       href="/ar/productHome/product/{{ product.id }}/">
+                                        {% trans 'show' %}</a>
+
+                                {% else %}
+                                    <a class="hover_black" href="/en/productHome/product/{{ product.id }}/">
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                    </a>
+                                    <p class="card-text" style="overflow: hidden;max-height: 15ch;">
+                                        {{ product.short_description }}</p>
+                                    <a class="btn login-btn border-radius"
+                                       href="/en/productHome/product/{{ product.id }}/">{% trans 'show' %}</a>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
+                {% endfor %}
+                </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if products.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; {% trans 'First' %}</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">
+                    {% trans 'Previous' %}
+                </a>
+                </li>
+            {% endif %}
+            {% with p=request.GET.page %}
+                {% for x in products.paginator.num_pages|times %}
+                    {% if x|add:1 == p|to_int %}
+                        <li class="page-item active"><a class="page-link" href="?page={{ x|add:1 }}">
+                            {{ x|add:1 }}<span
+                                class="sr-only">({% trans 'current' %})</span></a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ x|add:1 }}">{{ x|add:1 }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}
+            {% if products.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.next_page_number }}">{% trans 'Next' %}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.paginator.num_pages }}">{% trans 'Last' %}&raquo;</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <select id="adsParent" style="display: none" aria-label="ads">
+        {% with td=currentAdvers|total_ads_duration %}
+            {% if td == 600 %}
+                {% for ad in currentAdvers %}
+                    <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                            value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                {% endfor %}
+            {% elif td < 600 %}
+                {% for ad in currentAdvers %}
+                    <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                            value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                {% endfor %}
+                <option id="{{ pageName }},0" name="image"
+                        value="{{ 600|subtrac:td }}">{% static 'images/knics.jpg' %}</option>
+            {% else %}
+                <option id="{{ pageName }},0" name="image" value="600">{% static 'images/knics.jpg' %}</option>
+            {% endif %}
+        {% endwith %}
+    </select>
+    <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/viewPhoto.js' %}"></script>
+{% endblock %}

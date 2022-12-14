@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block final_cart %}
+    <style>
+        h5 {
+            margin-top: 55px;
+            font-size: 20px;
+            font-weight: 300;
+        }
+
+        #co {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 11px;
+            -webkit-transform: translateY(4px);
+            -moz-transform: translateY(4px);
+            -ms-transform: translateY(4px);
+            -o-transform: translateY(4px);
+            transform: translateY(4px);
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <h2>Purchases Verification</h2>
+        </div>
+        <div class="row" style="overflow: auto;">
+            <div class="col-md-12"
+                 style="min-width: 1130px;border: 5px solid goldenrod;box-shadow: 1px 1px 1px 1px gray;padding: 25px;margin-top: 40px;max-height: 400px;overflow: auto">
+                <div class="row">
+                    <div class="col-3">
+
+                    </div>
+                    <div class="col-3">
+                        <h4>{% trans 'Name' %}</h4>
+                    </div>
+                    <div class="col-2">
+                        <h4>{% trans 'Quantity' %}</h4>
+                    </div>
+                    <div class="col-2">
+                        <h4>{% trans 'Price' %}</h4>
+                    </div>
+                    <div class="col-2">
+                        <h4>{% trans 'Total' %}</h4>
+                    </div>
+                </div>
+                <hr>
+                <div id="cart2Div">
+                    {% for prod in product %}
+                        <div class="row">
+                            <div class="col-3" style="max-height: 150px;text-align: center;">
+                                <img alt="product img" src="{{ prod.0.main_img.url }}" style="max-height: 100%;max-width: 100%;">
+                            </div>
+                            <div class="col-3">
+                                <h5>{{ prod.0.name }}</h5>
+                            </div>
+                            <div class="col-2">
+                                <h5>{{ prod.1 }}</h5>
+                            </div>
+                            <div class="col-2">
+                                <h5>{{ prod.0.price }}</h5>
+                            </div>
+                            <div class="col-2">
+                                <h5>{% trans 'Total' %}</h5>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 30px">
+            <div class="col-md-8 text-center"
+                 style="border: 5px solid goldenrod;box-shadow: 1px 1px 1px 1px gray;padding: 25px;min-height: 143.3px;">
+                {% if '?s=done' in request.get_full_path %}
+                    <h2>{% trans 'Your Payment Was' %} <span
+                            style="color: green;font-weight: bolder">{% trans 'Successful' %}</span></h2>
+                    <h4 style="margin-top: 10px;">{% trans 'Your Payment Has Been Successfully Received' %}.</h4>
+                    {% elif '?s=canceled' in request.get_full_path %}
+                    <h2>Your Payment <span style="color: red">{% trans 'Has Not Been Processed' %}</span></h2>
+                    <h4 style="margin-top: 10px;">{% trans 'There Was A Problem Processing Your Payment' %}.</h4>
+                {% else %}
+                    <h4 style="margin-bottom: 20px">{% trans 'Pay Using PayPal , Visa or Master Card' %}</h4>
+                    {{ form.render }}
+                {% endif %}
+            </div>
+            <div class="col-md-4"
+                 style="border: 5px solid goldenrod;box-shadow: 1px 1px 1px 1px gray;padding: 25px;min-height: 143.3px;">
+                <div class="order_total" style="margin-top: 20px;">
+                    <div class="order_total_content text-md-center">
+                        <div class="order_total_title">{% trans 'Order Total' %}:</div>
+                        <div class="order_total_amount" id="tpa2">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <script src="{% static 'js/finalCart.js' %}"></script>
+{% endblock %}

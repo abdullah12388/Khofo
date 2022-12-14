@@ -1,0 +1,57 @@
+pytz  # https://github.com/stub42/pytz
+whitenoise  # https://github.com/evansd/whitenoise
+Pillow  # https://github.com/python-pillow/Pillow
+# Django
+# ------------------------------------------------------------------------------
+django==2.2.9  # https://www.djangoproject.com/
+django-crispy-forms  # https://github.com/django-crispy-forms/django-crispy-forms
+django-jet  # https://github.com/geex-arts/django-jet
+django-mathfilters  # https://github.com/dbrgn/django-mathfilters
+django-admin-rangefilter # https://github.com/silentsokolov/django-admin-rangefilter
+
+# Django REST Framework
+# ------------------------------------------------------------------------------
+djangorestframework  # https://github.com/encode/django-rest-framework
+coreapi  # https://github.com/core-api/python-client
+
+#fontawesome
+# ------------------------------------------------------------------------------
+django-fontawesome #https://fontawesome.com/
+
+#sql-django
+# ------------------------------------------------------------------------------
+# django-mysql # https://github.com/adamchainz/django-mysql
+# mysqlclient # https://pypi.org/project/mysqlclient/
+
+#security fields validation
+# ------------------------------------------------------------------------------
+bleach  # https://github.com/mozilla/bleach
+
+#django PDF
+# ------------------------------------------------------------------------------
+xhtml2pdf  # https://github.com/xhtml2pdf/django-xhtml2pdf
+
+#django paypal payment method
+# ------------------------------------------------------------------------------
+django-paypal # https://pypi.org/project/django-paypal/
+
+
+#django Admin Import & Export Models Data
+# ------------------------------------------------------------------------------
+django-import-export # https://github.com/django-import-export/django-import-export/blob/master/docs/installation.rst
+
+psycopg2 # https://github.com/psycopg/psycopg2
+
+# Smart Select
+# pip install git+https://github.com/digi604/django-smart-selects.git@js-unlinting-fixes
+
+django-multiselectfield  # https://github.com/goinnn/django-multiselectfield
+
+pandas  # https://github.com/pandas-dev/pandas
+
+IP2Location  # https://github.com/chrislim2888/IP2Location-Python
+
+langdetect  # https://pypi.org/project/langdetect/
+
+#unused data removed form media
+django-unused-media  # https://github.com/akolpakov/django-unused-media

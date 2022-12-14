@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block cart %}
+    <div class="container-fluid margin-top">
+        <div class="row">
+            <h2>{% trans 'Your Purchases Cart' %}</h2>
+        </div>
+        <div class="row scrollbar-2 style-2" id="dad" style="overflow: auto;">
+            <div id="cartBody" class="col-md-12 cart-body">
+                <div class="row">
+                    <div id="imgTitle" class="col-3">
+                    </div>
+                    <div id="nameTitle" class="col-2">
+                        <p>{% trans 'Name' %}</p>
+                    </div>
+                    <div id="specificationsTitle" class="col-3">
+                        <p>{% trans 'Specifications' %}</p>
+                    </div>
+                    <div id="quantityTitle" class="col-1">
+                        <p>{% trans 'Quantity' %}</p>
+                    </div>
+                    <div id="priceTitle" class="col-1">
+                        <p>{% trans 'Price' %}</p>
+                    </div>
+                    <div id="totalTitle" class="col-1">
+                        <p>{% trans 'Total' %}</p>
+                    </div>
+                    <div id="removeTitle" class="col-1">
+
+                    </div>
+                </div>
+                <hr id="hr" class="">
+                <div id="cartDiv">
+                    {% for prod in product %}
+                        <div class="row">
+                            <div class="col-3 cart-product-img">
+                              {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                                  <a href="/ar/productHome/product/{{ prod.0.id }}/">
+                                      <img alt="product img" src="{{ prod.0.main_img.url }}">
+                                  </a>
+                              {% else %}
+                                  <a href="/en/productHome/product/{{ prod.0.id }}/">
+                                      <img alt="product img" src="{{ prod.0.main_img.url }}">
+                                  </a>
+                              {% endif %}
+                            </div>
+                            <div class="col-2 cart-product-1">
+                                <p>{{ prod.0.name }}</p>
+                            </div>
+                            <div class="col-3 cart-product-1">
+                                {% if user.is_authenticated %}
+                                    {% if prod.2 %}
+                                        <p>{{ prod.2 }}</p>
+                                    {% else %}
+                                        <p>{% trans 'No Specifications' %}</p>
+                                    {% endif %}
+                                {% else %}
+                                    {% if request.session.khufu_cart.product.0.2 %}
+                                        <p>{{ request.session.khufu_cart.product.0.2 }}</p>
+                                    {% else %}
+                                        <p>{% trans 'No Specifications' %}</p>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                            {% if user.is_authenticated %}
+                                <div class="col-1 cart-product-1">
+                                    <div class="product_quantity clearfix product-quantity-cart border-radius"
+                                         title="Max-Quantity = {{ prod.3 }}">
+                                        <input name="quantity[{{ forloop.counter0 }}]"
+                                               pattern="[0-9]*"
+                                               style="width: 40px;"
+                                               type="text"
+                                               value="{{ prod.1 }}"
+                                               min="1"
+                                               max="10" aria-label="quantity">
+                                        <input type="hidden" value="{{ prod.0.id }}" aria-label="id">
+                                        <div class="quantity_buttons">
+                                            <div class="quantity_inc quantity_control"><i
+                                                    class="fa fa-chevron-up" style="margin:5px;" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="quantity_dec quantity_control"><i class="fa fa-chevron-down"
+                                                                                          style="margin:5px;"
+                                                                                          aria-hidden="true"></i></div>
+                                        </div>
+                                        <input id="avail_quan" type="text" value="{{ prod.3 }}" hidden
+                                               aria-label="quantity">
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="col-1 cart-product-1">
+                                    <div class="product_quantity clearfix product-quantity-cart border-radius"
+                                         title="Max-Quantity = {{ request.session.khufu_cart.product.0.3 }}">
+                                        <input name="quantity[{{ forloop.counter0 }}]"
+                                               pattern="[0-9]*"
+                                               style="width: 40px;"
+                                               type="text"
+                                               value="{{ prod.1 }}"
+                                               min="1"
+                                               max="10" aria-label="quantity">
+                                        <input type="hidden" value="{{ prod.0.id }}" aria-label="id">
+                                        <div class="quantity_buttons">
+                                            <div class="quantity_inc quantity_control"><i
+                                                    class="fa fa-chevron-up" style="margin:5px;" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="quantity_dec quantity_control"><i
+                                                    class="fa fa-chevron-down" style="margin:5px;"
+                                                    aria-hidden="true"></i></div>
+                                        </div>
+                                        <input id="avail_quan" type="text"
+                                               value="{{ request.session.khufu_cart.product.0.3 }}" hidden
+                                               aria-label="avail_quan">
+
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="col-1 cart-product-1">
+                                <p>{{ prod.0.price }}</p>
+                            </div>
+                            <div class="col-1 cart-product-1">
+                                <p>{% trans 'Total' %}</p>
+                            </div>
+                            <div class="col-1">
+                                <p id="{{ prod.0.id }}" class="product-quantity-cart product-quantity-cart-delete">
+                                    {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                                        <button class="btn btn-danger border-radius" name="ar">
+                                            &times;
+                                        </button>
+                                    {% else %}
+                                        <button class="btn btn-danger border-radius" name="en">
+                                            &times;
+                                        </button>
+                                    {% endif %}
+
+                                </p>
+                                {% if user.is_authenticated %}
+                                    <h5 style="display: none;" id="{{ prod.4 }}" aria-hidden="true"></h5>
+                                {% else %}
+                                    <h5 style="display: none;" id="{{ forloop.counter0 }}" aria-hidden="true"></h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row order-11 display-hide" id="totalOrderDiv">
+            <div class="col-md-8 text-center order-1-0">
+                {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                    {% if user.is_authenticated %}
+                        <a href="/ar/order/check_user_buyer/">
+                            <button class="btn login-btn border-radius" id="prsBtn">
+                                {% trans 'Verify Your Purchases' %}
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href="/ar/order/check_user_buyer/">
+                            <button class="btn login-btn border-radius" id="prsBtn">
+                                {% trans 'Verify Your Purchases' %}
+                            </button>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    {% if user.is_authenticated %}
+                        <a href="/en/order/check_user_buyer/">
+                            <button class="btn login-btn border-radius" id="prsBtn">
+                                {% trans 'Verify Your Purchases' %}
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href="/en/order/check_user_buyer/">
+                            <button class="btn login-btn border-radius" id="prsBtn">
+                                {% trans 'Verify Your Purchases' %}
+                            </button>
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-md-4 order-1-1">
+                <div class="order_total">
+                    <div class="row order_total_content text-md-center">
+                        <div class="col-5 order_total_title">{% trans 'Order Total' %}:
+                        </div>
+                        <div class="col-7 order_total_amount" id="tpa">
+                            0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- <script>
+        function processBuy() {
+            var prsBtn = document.getElementById('prsBtn');
+            var infoDiv = document.getElementById('info');
+            prsBtn.style.display = 'none';
+            infoDiv.style.display = 'block';
+        }
+    </script> -->
+    <script src="{% static 'js/checkOut.js' %}"></script>
+    <script src="{% static 'js/mediaQuery.js' %}"></script>
+    <script type='text/javascript'>
+        (function() {
+            var s = document.createElement('script');
+            s.type='text/javascript';
+            s.async=true;
+            s.id='lsInitScript';
+            s.src='https://livesupporti.com/Scripts/clientAsync.js?acc=c248e8f7-aaa7-41c4-8fd7-887cb3a35972&skin=Modern';
+            var scr=document.getElementsByTagName('script')[0];
+            scr.parentNode.appendChild(s, scr);
+        })();
+    </script>
+{% endblock %}

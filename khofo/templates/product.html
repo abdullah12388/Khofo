@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+{% load my_filters %}
+
+{% block product %}
+    {% if not available_quantity == 0 %}
+
+        {% include 'product_details.html' %}
+
+    {% else %}
+
+        {% include 'product_details_readonly.html' %}
+
+    {% endif %}
+{% endblock %}
+{% if request.GET.error == 'mq' %}
+    <script>
+        notifyMe("Max Quantity =  " + document.getElementById('avail_quan').value + " ");
+    </script>
+{% endif %}

@@ -1,0 +1,613 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mathfilters %}
+{% load my_filters %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block sub-category %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/sub-category.css' %}">
+
+    {% with country_short=request.session.site_info.country_short dollar_rate=request.session.site_info.dollar_rate %}
+        {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+            <div class="row">
+                <div class="col-md-10">
+                    <h2 style="text-align: center">{{ products.object_list.0.sub_category.name_ar }}</h2>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="singleSlider" class="gallery paginated_gallery" style="width: 100%;">
+                        <div class="gallery_scroller style-2 scrollbar-2">
+
+                            {% for offer in offers %}
+                                <div>
+                                    <a href="/ar/productHome/product/{{ offer.product.id }}">
+                                        <img src="{{ offer.image.url }}" alt="offer image">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <span class="btn prev" aria-hidden="true"></span>
+                        <span class="btn next" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="col-md-2 ads_menu" id="displayAds" style="overflow: hidden">
+                    <img class="ads-img" alt="ads image" src="..">
+                    <video class="ads-img" autoplay style="width: 100%;height: 100%" aria-hidden="true"></video>
+                </div>
+            </div>
+
+            <!-- Sort By -->
+            <div class="row container-fluid filter-page-btn">
+
+                <div class="col-md-6">
+                      <a href="/ar/productHome/category/{{ products.object_list.0.category.id }}/subcategory/{{ products.object_list.0.sub_category.id }}/products/">
+                          <button class="btn login-btn border-radius">{% trans 'Back To All' %}</button>
+                      </a>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px">
+                <!-- Filter -->
+                <div class="col-md-3">
+                    <h3 class="text-center" style="margin-bottom: 20px;">{% trans 'Filtering Panel' %}</h3>
+                    <form class="" method="get" action="{{ request.META.PATH_INFO }}">
+                        <div class="card" style="box-shadow: 6px 1px 25px #5f8fd08f">
+                            <article class="card-group-item">
+                                <div class="filter-content border-bottom">
+                                    <h6 class="title col-12" style="margin-top: 8px">{% trans 'Price' %}</h6>
+
+                                    {% if country_short == "EG" %}
+                                        <div class="card-body form-row ">
+                                            <div class="form-group col-md-6">
+                                                <label for="min_price">{% trans 'Min' %}</label>
+                                                <input id="min_price" type="number" class="form-control"
+                                                       placeholder="{{ min_price }}{% trans 'EGP' %}" name="min"
+                                                       min="{{ min_price|to_int }}"
+                                                       max="{{ max_price|to_int }}" aria-label="min price">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="max_price">{% trans 'Max' %}</label>
+                                                <input id="max_price" type="number" class="form-control"
+                                                       placeholder="{{ max_price }}{% trans 'EGP' %}"
+                                                       name="max"
+                                                       min="{{ min_price|to_int }}"
+                                                       max="{{ max_price|to_int }}" aria-label="max price">
+                                            </div>
+                                            <!--
+                                            <button class="btn btn-primary">show</button>
+                                            -->
+                                        </div> <!-- card-body.// -->
+                                    {% else %}
+                                        <div class="card-body form-row ">
+
+                                            {% if dollar_rate %}
+                                                <div class="form-group col-md-6">
+                                                    <label for="min_price">{% trans 'Min' %}</label>
+                                                    <input id="min_price" type="number" class="form-control"
+                                                           placeholder="${{ min_price|convert_money:dollar_rate  }}"
+                                                           name="min"
+                                                           min="{{ min_price|convert_money:dollar_rate|to_int }}"
+                                                           max="{{ max_price|convert_money:dollar_rate|to_int  }}"
+                                                           aria-label="min price">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="max_price">{% trans 'Max' %}</label>
+                                                    <input id="max_price" type="number" class="form-control"
+                                                           placeholder="${{ max_price|convert_money:dollar_rate }}"
+                                                           name="max" aria-label="max price"
+                                                           min="{{ min_price|convert_money:dollar_rate|to_int }}"
+                                                           max="{{ max_price|convert_money:dollar_rate|to_int }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="form-group col-md-6">
+                                                    <label for="min_price">{% trans 'Min' %}</label>
+                                                    <input id="min_price" type="number" class="form-control"
+                                                           placeholder="${{ min_price }}"
+                                                           name="min" aria-label="min price"
+                                                           min="{{ min_price|to_int }}"
+                                                           max="{{ max_price|to_int }}">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="max_price">{% trans 'Max' %}</label>
+                                                    <input id="max_price" type="number" class="form-control"
+                                                           placeholder="${{ max_price }}" name="max"
+                                                           aria-label="max price"
+                                                           min="{{ min_price|to_int }}"
+                                                           max="{{ max_price|to_int }}">
+                                                </div>
+                                            {% endif %}
+
+                                            <!--
+                                            <button class="btn btn-primary">show</button>
+                                            -->
+                                        </div> <!-- card-body.// -->
+                                    {% endif %}
+                                </div>
+                            </article> <!-- card-group-item.// -->
+                            <input type="text" value="{{ spec_names|length }}" name="spec_length" style="display: none"
+                                   aria-label="le">
+                            <p id="sub_category_id"
+                               style="display: none">{{ products.object_list.0.sub_category.id }}</p>
+                            <div id="filtering">
+                                {% for spec_name in spec_names_ar %}
+                                    {% with spec_values=spec_name|get_context_list:spec_names_ar %}
+                                        {% if not spec_values|length == 0 %}
+                                            <article class="card-group-item">
+                                                <div class="filter-content">
+                                                    <div class="card-body border-bottom">
+                                                        <input type="text" value="{{ spec_name }}"
+                                                               name="spec[{{ forloop.counter0 }}]"
+                                                               style="display: none" aria-label="le">
+                                                        <h5 class="title">{{ spec_name }}</h5>
+                                                        {% for spec_value in spec_values %}
+                                                            <div class="custom-control custom-checkbox">
+
+                                                                {% if enabled_selection %}
+                                                                    {% check_selection enabled_selection spec_name spec_value.spec_value as test %}
+                                                                    {% if test %}
+                                                                        <input checked aria-label="spec name"
+                                                                               class="custom-control-input {{ spec_value.spec_value_ar }}"
+                                                                               id="{{ spec_value.id }}"
+                                                                               name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                               type="checkbox"
+                                                                               value="{{ spec_value.spec_value_ar }}">
+                                                                        <label class="custom-control-label"
+                                                                               for="{{ spec_value.id }}">{{ spec_value.spec_value_ar }}</label>
+
+                                                                    {% else %}
+                                                                        <input class="custom-control-input {{ spec_value.spec_value_ar }}"
+                                                                               disabled aria-label="spec name"
+                                                                               id="{{ spec_value.id }}"
+                                                                               name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                               type="checkbox"
+                                                                               value="{{ spec_value.spec_value_ar }}">
+                                                                        <label class="custom-control-label line-through"
+                                                                               for="{{ spec_value.id }}">{{ spec_value.spec_value_ar }}</label>
+                                                                    {% endif %}
+
+                                                                {% else %}
+                                                                    <input class="custom-control-input line-through {{ spec_value.spec_value_ar }}"
+                                                                           id="{{ spec_value.id }}"
+                                                                           aria-label="spec name"
+                                                                           name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                           type="checkbox"
+                                                                           value="{{ spec_value.spec_value_ar }}">
+                                                                    <label class="custom-control-label"
+                                                                           for="{{ spec_value.id }}">{{ spec_value.spec_value_ar }}</label>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div> <!-- card-body.// -->
+                                                </div>
+                                            </article> <!-- card-group-item.// -->
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endfor %}
+
+                            </div>
+                            <div class="row choose-filter">
+                                {% if enabled_selection %}
+                                    <button id="selection_choose"
+                                            class="col-sm-6 btn btn-success btn-sm border-radius">{% trans 'choose' %}
+                                    </button>
+                                {% else %}
+                                    <button id="selection_choose"
+                                            class="col-sm-6 btn btn-danger btn-sm border-radius">{% trans 'choose' %}
+                                    </button>
+                                {% endif %}
+                                <a class="col-sm-6 btn btn-warning btn-sm border-radius" onclick="enble_all()">{% trans 'reset' %}</a>
+                            </div>
+                        </div> <!-- card.// -->
+                    </form>
+                </div>
+
+                <div class="col-md-9">
+                    <h3 class="text-center" style="margin-bottom: 20px;">{% trans 'Products List' %}</h3>
+                    {% if enabled_selection and products %}
+                        <h5 style="color: green">
+                            {% for spec in enabled_selection %}
+                                <span style="margin-right: 5px">{{ spec.spec_name }}: <span>{{ spec.spec_value }}</span> || </span>
+                            {% endfor %}
+                        </h5>
+                    {% elif products %}
+                        <h5 style="color: green">{% trans 'All Products' %}</h5>
+                    {% else %}
+                        <h5 style="color: green">{% trans 'No Products' %}</h5>
+                    {% endif %}
+                    {% for product in products %}
+                        <div class="row product_scroll" style="margin:inherit; height: 200px; padding: 10px">
+                            <div class="col-3" style="height: 100%">
+                                <a href="/ar/productHome/product/{{ product.id }}/">
+                                    <img src="{{ product.main_img.url }}" class="img-control_0" alt="order-img">
+                                </a>
+                            </div>
+                            <div class="col-3" style="padding: 10px">
+                                <h4>{{ product.name_ar }}</h4>
+                                <p style="margin-top: 20px;">
+                                    <span style="color: green;">{% trans 'Price' %}: </span>
+                                    <span>
+                                        {% if request.session.site_info.country_short == "EG" %}
+                                            {{ product.price }} {% trans 'EGP' %}
+                                        {% else %}
+
+                                            {% if dollar_rate %}
+                                                ${{ product.price|convert_money:dollar_rate }}
+                                            {% else %}
+                                                {{ product.price }}
+                                            {% endif %}
+
+                                            <span style="color:yellowgreen;font-size:20px"> {% trans 'USD' %}</span>
+                                        {% endif %}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-6 overflow-1 user-order-product-font-desc">
+                                <h5>{{ product.short_description_ar }}</h5>
+                                <br>
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if products.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% with p=request.GET.page %}
+                        {% for x in products.paginator.num_pages|times %}
+                            {% if x|add:1 == p|to_int %}
+                                <li class="page-item active"><a class="page-link" href="?page={{ x|add:1 }}">
+                                    {{ x|add:1 }}<span
+                                        class="sr-only">(current)</span></a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ x|add:1 }}">{{ x|add:1 }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    {% if products.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.next_page_number }}">{% trans 'Next' %}</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.paginator.num_pages }}">{% trans 'Last' %}
+                                &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <select id="adsParent" style="display: none" aria-label="ads">
+                {% with td=currentAdvers|total_ads_duration %}
+                    {% if td == 600 %}
+                        {% for ad in currentAdvers %}
+                            <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                                    value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                        {% endfor %}
+                    {% elif td < 600 %}
+                        {% for ad in currentAdvers %}
+                            <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                                    value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                        {% endfor %}
+                        <option id="{{ pageName }},0" name="image"
+                                value="{{ 600|subtrac:td }}">{% static 'images/knics.jpg' %}</option>
+                    {% else %}
+                        <option id="{{ pageName }},0" name="image" value="600">{% static 'images/knics.jpg' %}</option>
+                    {% endif %}
+                {% endwith %}
+            </select>
+
+        {% else %}
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h2 style="text-align: center">{{ products.object_list.0.sub_category.name }}</h2>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="singleSlider" class="gallery paginated_gallery" style="width: 100%;">
+                        <div class="gallery_scroller style-2 scrollbar-2">
+
+                            {% for offer in offers %}
+                                <div>
+                                    <a href="/en/productHome/product/{{ offer.product.id }}">
+                                        <img src="{{ offer.image.url }}" alt="offer image">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <span class="btn prev" aria-hidden="true"></span>
+                        <span class="btn next" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="col-md-2 ads_menu" id="displayAds" style="overflow: hidden">
+                    <img class="ads-img" alt="ads image" src="..">
+                    <video class="ads-img" autoplay style="width: 100%;height: 100%" aria-hidden="true"></video>
+                </div>
+            </div>
+            
+            <!-- Sort By -->
+            <div class="row container-fluid filter-page-btn">
+                <div class="col-md-6">
+                      <a href="/en/productHome/category/{{ products.object_list.0.category.id }}/subcategory/{{ products.object_list.0.sub_category.id }}/products/">
+                          <button class="btn login-btn border-radius">{% trans 'Back To All' %}</button>
+                      </a>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 20px">
+                <!-- Filter -->
+                <div class="col-md-3">
+                    <h3 class="text-center" style="margin-bottom: 20px;">{% trans 'Filtering Panel' %}</h3>
+                    <form class="" method="get" action="{{ request.META.PATH_INFO }}">
+                        <div class="card" style="box-shadow: 6px 1px 25px rgba(0, 0, 0, 0.1)">
+                            <article class="card-group-item">
+                                <div class="filter-content border-bottom">
+                                    <h6 class="title col-12" style="margin-top: 8px">{% trans 'Price' %}</h6>
+                                    {% if country_short == "EG" %}
+                                        <div class="card-body form-row ">
+                                            <div class="form-group col-md-6">
+                                                <label for="min_price">{% trans 'Min' %}</label>
+                                                <input id="min_price" type="number" class="form-control"
+                                                       placeholder="{{ min_price }} {% trans 'EGP' %}" name="min"
+                                                       aria-label="min price"
+                                                       min="{{ min_price|to_int }}"
+                                                       max="{{ max_price|to_int }}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="max_price">{% trans 'Max' %}</label>
+                                                <input id="max_price" type="number" class="form-control"
+                                                       placeholder="{{ max_price }} {% trans 'EGP' %}"
+                                                       name="max" aria-label="max price"
+                                                       min="{{ min_price|to_int }}"
+                                                       max="{{ max_price|to_int }}">
+                                            </div>
+                                            <!--
+                                            <button class="btn btn-primary">show</button>
+                                            -->
+                                        </div> <!-- card-body.// -->
+                                    {% else %}
+                                        <div class="card-body form-row ">
+
+                                            {% if dollar_rate %}
+                                                <div class="form-group col-md-6">
+                                                    <label for="min_price">{% trans 'Min' %}</label>
+                                                    <input id="min_price" type="number" class="form-control"
+                                                           placeholder="${{ min_price|convert_money:dollar_rate  }}"
+                                                           name="min" aria-label="min price"
+                                                           min="{{ min_price|convert_money:dollar_rate|to_int }}"
+                                                           max="{{ max_price|convert_money:dollar_rate|to_int  }}">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="max_price">{% trans 'Max' %}</label>
+                                                    <input id="max_price" type="number" class="form-control"
+                                                           placeholder="${{ max_price|convert_money:dollar_rate }}"
+                                                           name="max" aria-label="max price"
+                                                           min="{{ min_price|convert_money:dollar_rate|to_int }}"
+                                                           max="{{ max_price|convert_money:dollar_rate|to_int }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="form-group col-md-6">
+                                                    <label for="min_price">{% trans 'Min' %}</label>
+                                                    <input id="min_price" type="number" class="form-control"
+                                                           placeholder="${{ min_price }}"
+                                                           name="min" aria-label="min price"
+                                                           min="{{ min_price|to_int }}"
+                                                           max="{{ max_price|to_int }}">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="max_price">{% trans 'Max' %}</label>
+                                                    <input id="max_price" type="number" class="form-control"
+                                                           placeholder="${{ max_price }}" name="max"
+                                                           aria-label="max price"
+                                                           min="{{ min_price|to_int }}"
+                                                           max="{{ max_price|to_int }}">
+                                                </div>
+                                            {% endif %}
+
+                                            <!--
+                                            <button class="btn btn-primary">show</button>
+                                            -->
+                                        </div> <!-- card-body.// -->
+                                    {% endif %} <!-- card-body.// -->
+                                </div>
+                            </article> <!-- card-group-item.// -->
+                            <input type="text" value="{{ spec_names|length }}" name="spec_length" style="display: none"
+                                   aria-label="le">
+                            <p id="sub_category_id"
+                               style="display: none">{{ products.object_list.0.sub_category.id }}</p>
+                            <div id="filtering">
+                                {% for spec_name in spec_names %}
+                                    {% with spec_values=spec_name|get_context_list:spec_names %}
+                                        {% if not spec_values|length == 0 %}
+                                            <article class="card-group-item">
+                                                <div class="filter-content">
+                                                    <div class="card-body border-bottom">
+                                                        <input type="text" value="{{ spec_name }}"
+                                                               name="spec[{{ forloop.counter0 }}]"
+                                                               style="display: none" aria-label="le">
+                                                        <h5 class="title">{{ spec_name }}</h5>
+                                                        {% for spec_value in spec_values %}
+                                                            <div class="custom-control custom-checkbox">
+
+                                                                {% if enabled_selection %}
+                                                                    {% check_selection enabled_selection spec_name spec_value.spec_value as test %}
+                                                                    {% if test %}
+                                                                        <input checked
+                                                                               class="custom-control-input {{ spec_value.spec_value }}"
+                                                                               id="{{ spec_value.id }}"
+                                                                               name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                               type="checkbox" aria-label="spec name"
+                                                                               value="{{ spec_value.spec_value }}">
+                                                                        <label class="custom-control-label"
+                                                                               for="{{ spec_value.id }}">{{ spec_value.spec_value }}</label>
+
+                                                                    {% else %}
+                                                                        <input class="custom-control-input {{ spec_value.spec_value }}"
+                                                                               disabled
+                                                                               id="{{ spec_value.id }}"
+                                                                               name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                               type="checkbox" aria-label="spec name"
+                                                                               value="{{ spec_value.spec_value }}">
+                                                                        <label class="custom-control-label line-through"
+                                                                               for="{{ spec_value.id }}">{{ spec_value.spec_value }}</label>
+                                                                    {% endif %}
+
+                                                                {% else %}
+                                                                    <input class="custom-control-input line-through {{ spec_value.spec_value }}"
+                                                                           id="{{ spec_value.id }}"
+                                                                           name="{{ spec_name }}[{{ forloop.counter0 }}]"
+                                                                           type="checkbox" aria-label="spec name"
+                                                                           value="{{ spec_value.spec_value }}">
+                                                                    <label class="custom-control-label"
+                                                                           for="{{ spec_value.id }}">{{ spec_value.spec_value }}</label>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div> <!-- card-body.// -->
+                                                </div>
+                                            </article> <!-- card-group-item.// -->
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endfor %}
+
+
+                            </div>
+                            <div class="row choose-filter">
+                                {% if enabled_selection %}
+                                    <button id="selection_choose"
+                                            class="col-sm-6 btn btn-success btn-sm border-radius">{% trans 'choose' %}
+                                    </button>
+                                {% else %}
+                                    <button id="selection_choose"
+                                            class="col-sm-6 btn btn-danger btn-sm border-radius">{% trans 'choose' %}
+                                    </button>
+                                {% endif %}
+                                <a class="col-sm-6 btn btn-warning btn-sm border-radius" onclick="enble_all()">{% trans 'reset' %}</a>
+                            </div>
+                        </div> <!-- card.// -->
+                    </form>
+                </div>
+
+                <div class="col-md-9">
+                    <h3 class="text-center" style="margin-bottom: 20px;">{% trans 'Products List' %}</h3>
+                    {% if enabled_selection and products %}
+                        <h5 style="color: green">
+                            {% for spec in enabled_selection %}
+                                <span style="margin-right: 5px">{{ spec.spec_name }}: <span>{{ spec.spec_value }}</span> || </span>
+                            {% endfor %}
+                        </h5>
+                    {% elif products %}
+                        <h5 style="color: green">{% trans 'All Products' %}</h5>
+                    {% else %}
+                        <h5 style="color: green">{% trans 'No Products' %}</h5>
+                    {% endif %}
+                    {% for product in products %}
+                        <div class="row product_scroll" style="margin:inherit; height: 200px; padding: 10px">
+                            <div class="col-3" style="height: 100%">
+                                <a href="/en/productHome/product/{{ product.id }}">
+                                    <img src="{{ product.main_img.url }}" class="img-control_0" alt="order-img">
+                                </a>
+                            </div>
+                            <div class="col-3" style="padding: 10px">
+                                <p>{{ product.name }}</p>
+                                <p style="margin-top: 20px">
+                                    <span style="color: green;">{% trans 'Price' %}: </span>
+                                    <span>
+                                    {% if request.session.site_info.country_short == "EG" %}
+                                        {{ product.price }} {% trans 'EGP' %}
+                                    {% else %}
+                                        {% if dollar_rate %}
+                                            ${{ product.price|convert_money:dollar_rate }}
+                                        {% else %}
+                                            {{ product.price }}
+                                        {% endif %}
+                                        </span>
+
+                                        <span style="color:yellowgreen;font-size: 20px"> {% trans 'USD' %}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="col-6 overflow-1 user-order-product-font-desc">
+                                <h5>{{ product.short_description }}</h5>
+                                <br>
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if products.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% with p=request.GET.page %}
+                        {% for x in products.paginator.num_pages|times %}
+                            {% if x|add:1 == p|to_int %}
+                                <li class="page-item active"><a class="page-link" href="?page={{ x|add:1 }}">
+                                    {{ x|add:1 }}<span
+                                        class="sr-only">(current)</span></a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ x|add:1 }}">{{ x|add:1 }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                    {% if products.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.next_page_number }}">{% trans 'Next' %}</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.paginator.num_pages }}">{% trans 'Last' %}
+                                &raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <select id="adsParent" style="display: none" aria-label="ads">
+                {% with td=currentAdvers|total_ads_duration %}
+                    {% if td == 600 %}
+                        {% for ad in currentAdvers %}
+                            <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                                    value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                        {% endfor %}
+                    {% elif td < 600 %}
+                        {% for ad in currentAdvers %}
+                            <option id="{{ ad.page }},{{ ad.show_num }}" name="{{ ad.image.url|typeOf }}"
+                                    value="{{ ad.duration }}">{{ ad.image.url }}</option>
+                        {% endfor %}
+                        <option id="{{ pageName }},0" name="image"
+                                value="{{ 600|subtrac:td }}">{% static 'images/knics.jpg' %}</option>
+                    {% else %}
+                        <option id="{{ pageName }},0" name="image" value="600">{% static 'images/knics.jpg' %}</option>
+                    {% endif %}
+                {% endwith %}
+            </select>
+
+        {% endif %}
+    {% endwith %}
+
+    <p id="langCode" style="display: none">{{ request.LANGUAGE_CODE }}</p>
+    <script type="text/javascript" src="{% static 'js/filteration.js' %}"></script>
+    <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/viewPhoto.js' %}"></script>
+{% endblock %}

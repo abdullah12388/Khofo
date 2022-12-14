@@ -1,0 +1,7 @@
+javascript obfuscate:
+
+	https://www.cleancss.com/javascript-obfuscate/
+
+Sound Cutter:
+
+	https://mp3cut.net/

@@ -1,0 +1,334 @@
+@charset "utf-8";
+@media only screen and (max-width: 1199px) {
+    .char_item {
+        padding-left: 25px
+    }
+
+    .product_description {
+        padding-left: 30px
+    }
+
+    .image_list li {
+        height: 130px
+    }
+
+    .image_selected {
+        height: 420px
+    }
+
+    .product_color, .product_quantity {
+        width: 162px
+    }
+
+    .button_container {
+        margin-top: 38px
+    }
+
+    .newsletter_form {
+        width: 456px
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .char_col:not(:last-child):not(:nth-child(3)) {
+        margin-bottom: 30px
+    }
+
+    .char_item {
+        padding-left: 36px
+    }
+
+    .shop_sidebar {
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        transform: none
+    }
+
+    .shop_content {
+        margin-top: 60px
+    }
+
+    .product_item {
+        width: 25%
+    }
+
+    .product_description {
+        padding-left: 0
+    }
+
+    .image_selected {
+        width: 100%;
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        transform: none
+    }
+
+    .image_list {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 15px
+    }
+
+    .image_list li {
+        width: calc(33.33333333% - 10px);
+        height: 220px;
+        margin-bottom: 0
+    }
+
+    .image_list li:not(:last-child) {
+        margin-right: 15px
+    }
+
+    .product_description {
+        padding-top: 80px
+    }
+
+    .newsletter_title_container {
+        width: 100%
+    }
+
+    .newsletter_content {
+        width: 100%;
+        margin-top: 30px
+    }
+
+    .newsletter_form {
+        width: calc(100% - 114px)
+    }
+
+    .footer_col:not(:last-child) {
+        margin-bottom: 40px
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .banner_product_image {
+        opacity: .5;
+        width: 60vw;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%)
+    }
+
+    .banner_product_image img {
+        width: 100%
+    }
+
+    .char_col:nth-child(3) {
+        margin-bottom: 30px
+    }
+
+    .char_item {
+        padding-left: 36px
+    }
+
+    .product_item {
+        width: 33.33333333%
+    }
+
+    .image_list li {
+        height: 160px
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .page_menu_item > a {
+        font-size: 12px
+    }
+
+    .page_menu_selection li a {
+        font-size: 12px
+    }
+
+    .banner_product_image {
+        right: 15px
+    }
+
+    .button {
+        height: 32px
+    }
+
+    .button a {
+        font-size: 12px;
+        line-height: 32px;
+        padding-left: 25px;
+        padding-right: 25px
+    }
+
+    .rating_r i::before {
+        font-size: 14px
+    }
+
+    .shop_product_count, .shop_sorting {
+        float: none
+    }
+
+    .shop_sorting {
+        margin-top: 7px
+    }
+
+    .shop_page_nav {
+        height: 40px
+    }
+
+    .page_next, .page_prev {
+        width: 30px
+    }
+
+    .page_nav li {
+        width: 30px;
+        height: 40px
+    }
+
+    .single_product {
+        padding-top: 80px
+    }
+
+    .image_selected {
+        height: calc(100vw - 30px)
+    }
+
+    .image_list li {
+        height: calc((100vw - 30px) / 3 - 15px)
+    }
+
+    .product_name {
+        font-size: 24px
+    }
+
+    .product_quantity {
+        float: none
+    }
+
+    .product_color {
+        float: none;
+        margin-top: 15px
+    }
+
+    .cart_button {
+        font-size: 13px;
+        line-height: 32px;
+        padding-left: 25px;
+        padding-right: 25px
+    }
+
+    .newsletter_form {
+        float: none;
+        width: 100%
+    }
+
+    .newsletter_title_container {
+        padding-left: 0;
+        text-align: center
+    }
+
+    .newsletter_unsubscribe_link {
+        float: none;
+        text-align: center;
+        margin-top: 10px;
+        height: auto
+    }
+
+    .newsletter_unsubscribe_link a {
+        line-height: 1
+    }
+
+    .newsletter_title {
+        font-size: 16px
+    }
+
+    .newsletter_icon {
+        position: relative;
+        width: 40px;
+        top: auto;
+        -webkit-transform: translate(-50%, 0);
+        -moz-transform: translate(-50%, 0);
+        -ms-transform: translate(-50%, 0);
+        -o-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+        left: 50%;
+        margin-bottom: 20px
+    }
+
+    .newsletter_button {
+        position: relative;
+        top: auto;
+        right: auto;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        width: 113px;
+        height: 40px;
+        background: #0e8ce4;
+        color: #fff;
+        line-height: 40px;
+        font-size: 12px;
+        border: none;
+        outline: 0;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px
+    }
+
+    .newsletter_input {
+        font-size: 13px;
+        padding-left: 15px;
+        height: 40px;
+        line-height: 40px
+    }
+
+    .newsletter_input::-webkit-input-placeholder {
+        font-size: 13px
+    }
+
+    .newsletter_input:-moz-placeholder {
+        font-size: 13px
+    }
+
+    .newsletter_input::-moz-placeholder {
+        font-size: 13px
+    }
+
+    .newsletter_input:-ms-input-placeholder {
+        font-size: 13px
+    }
+
+    .newsletter_input::input-placeholder {
+        font-size: 13px
+    }
+
+    .copyright_container {
+        height: auto;
+        padding-top: 30px;
+        padding-bottom: 30px
+    }
+
+    .logos {
+        margin-top: 30px
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .product_item {
+        width: 50%
+    }
+}

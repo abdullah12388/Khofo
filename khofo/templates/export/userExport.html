@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load my_filters %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block user_export %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+          integrity="sha384-esnPbY6pGdWGDRkW6F6bz36U3uWswJ65URoyq3FTe3D5eDjdtcewAAslO0I9dsCe" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles/chat.css' %}">
+    <style>
+        .lbl-name {
+            font-size: 18px;
+            margin: 10px auto;
+        }
+
+        .lbl-data {
+            font-size: 20px;
+            margin: 10px auto;
+        }
+        .pad{
+            padding:5px;
+        }
+        .checkMarTop{
+            margin-top:12px;
+        }
+        .whiteColor{
+            color:#fff;
+        }
+        .grayColor{
+            color:#555;
+        }
+    </style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5" style="border:1px solid #000">
+            <h1>Chat Panel</h1>
+            <div id="frame">
+                <div class="content">
+                    <div class="messages">
+                        <ul>
+                            <li class="sent">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="">
+                                <p>How the hell am I supposed to get a jury to believe you when I am not even sure
+                                    that I
+                                    do?!</p>
+                            </li>
+                            <li class="replies">
+                                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="">
+                                <p>When you're backed against the wall, break the god damn thing down.</p>
+                            </li>
+                            <li class="replies">
+                                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="">
+                                <p>Excuses don't win championships.</p>
+                            </li>
+                            <li class="sent">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="">
+                                <p>Oh yeah, did Michael Jordan tell you that?</p>
+                            </li>
+                            <li class="replies">
+                                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="">
+                                <p>No, I told him that.</p>
+                            </li>
+                            <li class="replies">
+                                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="">
+                                <p>What are your choices when someone puts a gun to your head?</p>
+                            </li>
+                            <li class="sent">
+                                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="">
+                                <p>What are you talking about? You do what they say or they shoot you.</p>
+                            </li>
+                            <li class="replies">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="">
+                                <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff.
+                                    Or, you do
+                                    any
+                                    one of a hundred and forty six other things.</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="message-input">
+                        <div class="wrap">
+                            <input id="messageInput" type="text" placeholder="Write your message..."
+                                   pattern="^[A-Za-z -]+$"
+                                   aria-label="message">
+                            <button id="sendMessageButton" class=""><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7" style="border:1px solid #000">
+            <div class="row">
+                <h1 class="m-auto">Export Panel</h1>
+            </div>
+            <form>
+                <div class="row pad" style="background-color:#435f7a"><!--#f7ff007d-->
+                    <div class="col-md-4">
+                        <label class="lbl-name whiteColor">Shipping Cost</label>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="lbl-data whiteColor">The cost will be calculated within 1 working day</label>
+                        <!--<label>5840$</label>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>Need to open ILOC to:</h3>
+                </div>
+                <div class="row pad" style="background-color:#435f7a">
+                    <div class="col-md-12">
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Exporter Bank Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">QNB Bank</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Exporter Account Number</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">12345678912345</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Order Amount</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">80450$</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Shipping Amount</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">5480$</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Exporter Bank Fees</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">50$</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Total Amount</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">152000$</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>Opened ILOC from:</h3>
+                </div>
+                <div class="row pad" style="background-color:#f5f5f5">
+                    <div class="col-md-12">
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label for="ibn" class="lbl-name grayColor">Importer Bank Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Enter Importer Bank Name" id="ibn" aria-describedby="ibnHelp">
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label for="ilocn" class="lbl-name grayColor">ILOC Number</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" placeholder="Enter ILOC Number" id="ilocn" aria-describedby="ilocnHelp">
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label for="iloca" class="lbl-name grayColor">ILOC Amount</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="Number" min="0" class="form-control" placeholder="Enter ILOC Amount" id="iloca" aria-describedby="ilocaHelp">
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name grayColor">ILOC File</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="custom-file">
+                                    <input type="File" class="custom-file-input" id="ilocf" aria-describedby="ilocfHelp">
+                                    <label for="ilocf" class="custom-file-label">Please Upload...</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>Order shipping Details:</h3>
+                </div>
+                <div class="row pad" style="background-color:#435f7a">
+                    <div class="col-md-12">
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Shipping Company Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">Fedex</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Shipping Port Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">BlaBla International Port</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label class="lbl-name whiteColor">Arrival Date</label>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="lbl-data whiteColor">1-1-2021</label>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-md-4">
+                                <label for="sf" class="lbl-name whiteColor">Shipping File</label>
+                            </div>
+                            <div class="col-md-8">
+                                <a href="/media/site/logoL.jpg" class="lbl-data whiteColor">File Link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pad" style="background-color:#f5f5f5">
+                    <div class="col-md-4">
+                        <div class="row pad form-group form-check m-auto">
+                            <div class="col-md-3">
+                                <input type="checkbox" class="form-check-input checkMarTop" id="od">
+                            </div>
+                            <div class="col-md-9">
+                                <label class="form-check-label lbl-name grayColor" for="od">Order Delivered</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row pad form-group">
+                            <div class="col-md-5">
+                                <label class="form-check-label lbl-name grayColor" for="dd">Delivered Date</label>
+                            </div>
+                            <div class="col-md-7">
+                                <input type="Date" class="form-control border-radius" id="dd">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" style="margin-top:5px;" class="btn login-btn border-radius">Confirm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="{% static 'js/sendChatMessage.js' %}"></script>
+{% endblock %}

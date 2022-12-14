@@ -1,0 +1,6 @@
+store:
+	sb-x8ysa626483@business.example.com
+	As123123123
+personal:
+	sb-xjbia626681@personal.example.com
+	As123123123

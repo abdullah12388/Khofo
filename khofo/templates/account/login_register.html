@@ -1,0 +1,109 @@
+<!--{% if request.GET.error == 'nf' %}-->
+<!--    <script>notifyMe('The username not found!')</script>-->
+<!--{% endif %}-->
+<!--{% if request.GET.error == 'na' %}-->
+<!--    <script>notifyMe('This user is not active!')</script>-->
+<!--{% endif %}-->
+<!--{% if request.GET.error == 'nau' %}-->
+<!--    <script>notifyMe('The username or password is incorrect')</script>-->
+<!--{% endif %}-->
+
+<!--{% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}-->
+<!--    <div class="limiter">-->
+<!--        <div class="container-login100">-->
+<!--            <div class="wrap-login100">-->
+
+<!--                <form class="login100-form validate-form" method="post" action="/ar/user/login/">-->
+<!--                    {% csrf_token %}-->
+<!--                    <span class="login100-form-logo">-->
+<!--					<i class="zmdi zmdi-landscape" aria-hidden="true"></i>-->
+<!--				</span>-->
+
+<!--                    <span class="login100-form-title p-b-34 p-t-27">-->
+<!--					{% trans 'Log in' %}-->
+<!--				</span>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter username' %}">-->
+<!--                        <input class="form-control here" type="text" name="username"-->
+<!--                               placeholder="{% trans 'username' %}" aria-label="username">-->
+<!--                    </div>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter password' %}">-->
+<!--                        <input class="form-control here" type="password" name="password"-->
+<!--                               placeholder="{% trans 'password' %}" aria-label="password">-->
+<!--                    </div>-->
+
+<!--                    <div class="contact100-form-checkbox">-->
+<!--                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me" aria-label="remember-me">-->
+<!--                        <label class="label-checkbox100" for="ckb1">-->
+<!--                            {% trans 'Remember me' %}-->
+<!--                        </label>-->
+<!--                    </div>-->
+
+<!--                    <div class="container-login100-form-btn">-->
+<!--                        <button class="login100-form-btn">-->
+<!--                            {% trans 'Login' %}-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+<!--                    <div class="text-center p-t-90">-->
+<!--                        <a class="txt1" href="/ar/user/signup/">-->
+<!--                            {% trans 'Forgot Password' %}?-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div id="dropDownSelect1" aria-hidden="true"></div>-->
+<!--{% else %}-->
+<!--    <div class="limiter">-->
+<!--        <div class="container-login100">-->
+<!--            <div class="wrap-login100">-->
+
+<!--                <form class="login100-form validate-form" method="post" action="/en/user/login/">-->
+<!--                    {% csrf_token %}-->
+<!--                    <span class="login100-form-logo">-->
+<!--					<i class="zmdi zmdi-landscape" aria-hidden="true"></i>-->
+<!--				</span>-->
+
+<!--                    <span class="login100-form-title p-b-34 p-t-27">-->
+<!--					{% trans 'Log in' %}-->
+<!--				</span>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter username' %}">-->
+<!--                        <input class="form-control here" type="text" name="username"-->
+<!--                               placeholder="{% trans 'username' %}" aria-label="username">-->
+<!--                    </div>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter password' %}">-->
+<!--                        <input class="form-control here" type="password" name="password"-->
+<!--                               placeholder="{% trans 'password' %}" aria-label="password">-->
+<!--                    </div>-->
+
+<!--                    <div class="contact100-form-checkbox">-->
+<!--                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me"  aria-label=""remember-me>-->
+<!--                        <label class="label-checkbox100" for="ckb1">-->
+<!--                            {% trans 'Remember me' %}-->
+<!--                        </label>-->
+<!--                    </div>-->
+
+<!--                    <div class="container-login100-form-btn">-->
+<!--                        <button class="login100-form-btn">-->
+<!--                            {% trans 'Login' %}-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+<!--                    <div class="text-center p-t-90">-->
+<!--                        <a class="txt1" href="/ar/user/signup/">-->
+<!--                            {% trans 'Forgot Password' %}?-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div id="dropDownSelect1" aria-hidden="true"></div>-->
+<!--{% endif %}-->

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+{% load my_filters %}
+
+{% block product_review %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/product_review.css' %}">
+
+    {% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' %}
+        <div class="single_product" xmlns="http://www.w3.org/1999/html">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Selected Image -->
+                    <div class="col-lg-5 order-lg-2 order-1">
+                        <div class="image_selected">
+                            <img alt="" src="{{ product.main_img.url }}">
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-lg-5 order-3">
+                        <div class="product_description" style="padding-right: 22px">
+                            <div class="product_category">
+                                <a href="/ar/productHome/category/{{ product.category.id }}/">
+                                    <h3>{{ product.category.name_ar }}</h3>
+                                </a>
+                            </div>
+                            <div class="product_category">
+                                <a href="/en/productHome/category/{{ product.category.id }}/subcategory/{{ product.sub_category.id }}/products">
+                                    <h3>{{ product.sub_category.name_ar }}</h3>
+                                </a>
+                            </div>
+                            <div class="product_name">
+                                <a href="/en/productHome/product/{{ product.id }}">
+                                    <h1>{{ product.name_ar }}</h1>
+                                </a>
+                            </div>
+                            <div class="product_text">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <p style="font-size: 20px;font-weight: 800;color:#474d82;margin-bottom: 0px;">{% trans 'Choose Stars' %}<span
+                                            id="req_mes"
+                                            style="display: none;font-weight: bolder;color: red;font-size: 18px;margin-left: 15px;">*{% trans 'required' %}</span>
+                                    </p>
+                                    <div class="rating-star">
+                                        <input type="radio" name="h_star" id="s5" value="5" aria-label="star" required/>
+                                        <label for="s5">★</label>
+                                        <input type="radio" name="h_star" id="s4" value="4" aria-label="star"/>
+                                        <label for="s4">★</label>
+                                        <input type="radio" name="h_star" id="s3" value="3" aria-label="star"/>
+                                        <label for="s3">★</label>
+                                        <input type="radio" name="h_star" id="s2" value="2" aria-label="star"/>
+                                        <label for="s2">★</label>
+                                        <input type="radio" name="h_star" id="s1" value="1" aria-label="star"/>
+                                        <label for="s1">★</label>
+                                    </div>
+                                    <p style="font-size: 20px;font-weight: 800;color:#474d82;">{% trans 'Enter Review' %}</p>
+                                    <textarea class="form-control" name="review" cols="250" rows="4"
+                                              placeholder="{% trans 'Type Your Review' %}"
+                                              aria-hidden="true"></textarea>
+                                    <input class="btn btn-success" id="sub-btn" type="submit"
+                                           value="{% trans 'Submit' %}" aria-label="submit" onclick="validStar()"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="single_product">
+            <div class="container">
+                <div class="row">
+                    <!-- Selected Image -->
+                    <div class="col-lg-5 order-lg-2 order-1">
+                        <div class="image_selected">
+                            <img alt="product img" src="{{ product.main_img.url }}">
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="col-lg-5 order-3">
+                        <div class="product_description">
+                            <div class="product_category">
+                                <a href="/en/productHome/category/{{ product.category.id }}/">
+                                    <h3>{{ product.category }}</h3>
+                                </a>
+                            </div>
+                            <div class="product_category">
+                                <a href="/en/productHome/category/{{ product.category.id }}/subcategory/{{ product.sub_category.id }}/products">
+                                    <h3>{{ product.sub_category }}</h3>
+                                </a>
+                            </div>
+                            <div class="product_name">
+                                <a href="/en/productHome/product/{{ product.id }}">
+                                    <h1>{{ product.name }}</h1>
+                                </a>
+                            </div>
+                            <div class="product_text">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <p style="font-size: 20px;font-weight: 800;color:#474d82;margin-bottom: 0px;">Choose
+                                        Stars<span id="req_mes"
+                                                   style="display: none;font-weight: bolder;color: red;font-size: 18px;margin-left: 15px;">*required</span>
+                                    </p>
+                                    <div class="rating-star">
+                                        <input type="radio" name="h_star" id="s5" value="5" required/>
+                                        <label for="s5">★</label>
+                                        <input type="radio" name="h_star" id="s4" value="4"/>
+                                        <label for="s4">★</label>
+                                        <input type="radio" name="h_star" id="s3" value="3"/>
+                                        <label for="s3">★</label>
+                                        <input type="radio" name="h_star" id="s2" value="2"/>
+                                        <label for="s2">★</label>
+                                        <input type="radio" name="h_star" id="s1" value="1"/>
+                                        <label for="s1">★</label>
+                                    </div>
+                                    <p style="font-size: 20px;font-weight: 800;color:#474d82;">Enter Review</p>
+                                    <textarea class="form-control" name="review" cols="250" rows="4"
+                                              placeholder="Type Your Review" aria-hidden="true"></textarea>
+                                    <input class="btn btn-success" id="sub-btn" type="submit" value="Submit"
+                                           onclick="validStar()"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}
+                {{ message.tags }}<br>
+                {{ message }}
+                <script type="text/javascript">
+                    notifyMe('{{ message.tags }}' + '\n' + '{{ message }}');
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script src="{% static 'js/product_review.js' %}"></script>
+{% endblock %}

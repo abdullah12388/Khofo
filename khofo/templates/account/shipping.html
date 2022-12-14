@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block final_cart %}
+
+    <!-- shipping -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/shipping.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/sub-category.css' %}">
+
+
+    <div class="container">
+        <div class="row">
+            <h2 style="color: green">{% trans 'Choose Shipping' %}</h2>
+        </div>
+        <div class="row scrollbar-2 style-2" style="overflow: auto">
+            <div class="col-md-12 shipping-cart">
+                <div class="row">
+                    <div class="col-2 cart-product-header">
+                    </div>
+                    <div class="col-2 cart-product-header">
+                        <p>{% trans 'Name' %}</p>
+                    </div>
+                    <div class="col-1 cart-product-header">
+                        <p>{% trans 'Quantity' %}</p>
+                    </div>
+                    <div class="col-1 cart-product-header">
+                        <p>{% trans 'Weight' %}</p>
+                    </div>
+                    <div class="col-1 cart-product-header">
+                        <p>{% trans 'Size' %}</p>
+                    </div>
+                    <div class="col-1 cart-product-header">
+                        <p>{% trans 'Price' %}</p>
+                    </div>
+                    <div class="col-2 cart-product-header">
+                        <p>{% trans 'Total' %}</p>
+                    </div>
+                    <div class="col-2 cart-product-header">
+                        <p><b>{% trans 'Choose Shipping' %}</b></p>
+                    </div>
+                </div>
+                <hr>
+                <div id="cart3Div">
+                    {% for prod in product %}
+                        <div class="row">
+                            <div class="col-2 cart-product-img">
+                                <a href="/productHome/product/{{ prod.0.id }}/">
+                                    <img alt="product" src="{{ prod.0.main_img.url }}">
+                                </a>
+                            </div>
+                            <div class="col-2 cart-product productName">
+                                <p>{{ prod.0.name }}</p>
+                            </div>
+                            <div class="col-1 cart-product quantityElement">
+                                <p>{{ prod.1 }}</p>
+                            </div>
+                            <div class="col-1 cart-product weightElement">
+                                <p>{{ prod.0.weight }}</p>
+                            </div>
+                            <div class="col-1 cart-product sizeElement">
+                                <p>{{ prod.0.volume }}</p>
+                            </div>
+                            <div class="col-1 cart-product">
+                                <p>{{ prod.0.price }}</p>
+                            </div>
+                            <div class="col-2 cart-product">
+                                <p aria-hidden="true"></p>
+                            </div>
+
+                            <div class="col-2 cart-product">
+                                <div class="shipping-choose">
+                                    <div class="select">
+                                        <select class="sort-by-select " id="shipping{{ forloop.counter0 }}"
+                                                aria-label="shipping">
+                                            <option selected disabled>{% trans 'Choose' %}</option>
+                                            <option value="express">{% trans 'Express' %}</option>
+                                            <option value="air_freight">{% trans 'Air Freight' %}</option>
+                                            <option value="sea_freight">{% trans 'Sea Freight' %}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="display-hide productId">{{ prod.0.id }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-11 text-right">
+            <button id="confirmShipping" class="btn login-btn border-radius display-hide ">
+                {% trans 'Confirm Shipping Condition' %}</button>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4 text-center shipping-result-div">
+                {% if '?s=done' in request.get_full_path %}
+                    <h2>{% trans 'Your Payment Was' %} <span
+                            style="color: green;font-weight: bolder">{% trans 'Successful' %}</span></h2>
+                    <h4 class="valid-messages"
+                        style="margin-top: 10px;">{% trans 'Your Payment Has Been Successfully Received' %}.</h4>
+                    {% elif '?s=canceled' in request.get_full_path %}
+                    <h2>Your Payment <span style="color: red">{% trans 'Has Not Been Processed' %}</span></h2>
+                    <h4 class="valid-messages"
+                        style="margin-top: 10px;">{% trans 'There Was A Problem Processing Your Payment' %}.</h4>
+                {% else %}
+                    <h4 class="valid-messages"
+                        style="margin-bottom: 20px">{% trans 'Pay Using Visa or Master Card' %}</h4>
+                    <input id="payBtn" type="button" class="btn btn-success w-50 display-hide" value="Pay Now"
+                           onclick="Checkout.showLightbox();showProcess();"/><br><br>
+                    <h3 id="processPay" class="display-hide">{% trans 'Payment is' %} <span
+                            style="color: green;font-weight: bolder">{% trans 'Processing' %}...</span></h3>
+                    <!-- <input type="button" class="btn btn-success w-50" value="Pay Out" onclick="Checkout.showPaymentPage();" /> -->
+                {% endif %}
+            </div>
+            <div class="col-md-8 shipping-result-div">
+
+                {% if request.session.site_info.country_short == "EG" %}
+                    <div class="order_total">
+                        <div id="shippingDetails">
+                            <div class="row display-hide" id="express">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Express' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="order_total_amount" id="expressPrice">0</span>
+                                    <span style="color: green">  {% trans 'EGP' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="expressDate"
+                                          class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+                            <div class="row display-hide" id="air">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Air Freight' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="order_total_amount" id="airPrice">0</span>
+                                    <span style="color: green">  {% trans 'EGP' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="airDate" class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+                            <div class="row display-hide" id="sea">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Sea Freight' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="order_total_amount" id="seaPrice">0</span>
+                                    <span style="color: green"> {% trans 'EGP' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="seaDate" class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="order_total_title">{% trans 'Total Orders' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="order_total_amount" id="tpa3">0 </span> <span
+                                    style="color: green"> {% trans 'EGP' %}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="order_total_title">{% trans 'Total Shipping' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="order_total_amount" id="tpa4">0  </span> <span
+                                    style="color: green"> {% trans 'EGP' %}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                $ <span class="order_total_title">{% trans 'Total Price' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="order_total_amount" id="tpa5">0 </span> <span
+                                    style="color: green"> {% trans 'EGP' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="order_total">
+                        <div id="shippingDetails">
+                            <div class="row display-hide" id="express">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Express' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="order_total_amount" id="expressPrice">0</span>
+                                    <span style="color: green"> {% trans 'USD' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="expressDate"
+                                          class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+                            <div class="row display-hide" id="air">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Air Freight' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    $ <span class="order_total_amount" id="airPrice">0</span>
+                                    <span style="color: green"> {% trans 'USD' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="airDate" class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+                            <div class="row display-hide" id="sea">
+                                <div class="col-3">
+                                    <span class="order_total_title">{% trans 'Sea Freight' %}:</span>
+                                </div>
+                                <div class="col-3">
+                                    $ <span class="order_total_amount" id="seaPrice">0</span>
+                                    <span style="color: green"> {% trans 'USD' %}</span>
+                                </div>
+                                <div class="col-6">
+                                    <span id="seaDate" class="order_total_title shipping-time"> January 30, 2020</span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="order_total_title">{% trans 'Total Orders' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                $ <span class="order_total_amount" id="tpa3">0 </span> <span
+                                    style="color: green"> {% trans 'USD' %}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="order_total_title">{% trans 'Total Shipping' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                $ <span class="order_total_amount" id="tpa4">0  </span> <span
+                                    style="color: green"> {% trans 'USD' %}</span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                $ <span class="order_total_title">{% trans 'Total Price' %}:</span>
+                            </div>
+                            <div class="col-6">
+                                $ <span class="order_total_amount" id="tpa5">0 </span> <span
+                                    style="color: green"> {% trans 'USD' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <br>
+    {% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' %}
+        <input id="lang_code" type="hidden" value="ar">
+    {% else %}
+        <input id="lang_code" type="hidden" value="en">
+    {% endif %}
+    <!-- payment -->
+    <script src="https://banquemisr.gateway.mastercard.com/checkout/version/54/checkout.js"
+            data-error="errorCallback"
+            data-cancel="cancelCallback"
+            data-complete="completeCallback"
+            data-beforeRedirect="Checkout.saveFormFields"
+            data-afterRedirect="Checkout.restoreFormFields">
+    </script>
+    <script src="{% static 'js/shipping.js' %}"></script>
+{% endblock %}

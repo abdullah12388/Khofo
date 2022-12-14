@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block contact_us %}
+
+    <!-- Contact US -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/contactus/contactus_style.css' %}">
+
+    <!-- **** Contact Area Start **** -->
+    <section class="rehomes-support-and-contact-area section-padding-80-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="contact-information-area mb-80">
+                        <!-- Title -->
+                        <div class="support-title wow fadeInUp" data-wow-delay="200ms">
+                            <h2>{% trans 'Need Help ?' %}</h2>
+                        </div>
+
+                        <!-- Support Area Content -->
+                        <div class="support-area-content d-flex align-items-center wow fadeInUp" data-wow-delay="200ms">
+                            <!-- Support Person Thumb -->
+                            <div class="support-perosn-thumb">
+                                <img src="{% static 'images/35.jpg' %}" alt="support img">
+                            </div>
+                            <div class="supprto-meta">
+                                <h4>Azure Wilson</h4>
+                                <p>Customer Realations</p>
+                                <p>963.806.0919</p>
+                                <p>AzureWilson@colorlib.com</p>
+                            </div>
+                        </div>
+
+                        <!-- Support Area Content -->
+                        <div class="support-area-content d-flex align-items-center wow fadeInUp" data-wow-delay="200ms">
+                            <!-- Support Person Thumb -->
+                            <div class="support-perosn-thumb">
+                                <img src="{% static 'images/36.jpg' %}" alt="support img">
+                            </div>
+                            <div class="supprto-meta">
+                                <h4>Marry Jane</h4>
+                                <p>Customer Realations</p>
+                                <p>963.806.0919</p>
+                                <p>Marry Jane@colorlib.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <!-- Leave A Reply -->
+                    <div class="rehomes-contact-form mb-80 wow fadeInUp" data-wow-delay="200ms">
+                        <!-- Title -->
+                        <div class="support-title">
+                            <h2>{% trans 'Get In Touch' %}</h2>
+                        </div>
+                        <!-- Form -->
+                        <form method="POST" class='support-form' enctype="multipart/form-data"
+                              style="padding: 10px;border: 1px solid gray;">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12" style="margin-bottom: 15px">
+                                    {{ email_form.name }}
+                                </div>
+                                <div class="col-12">
+                                    {{ email_form.email }}
+                                </div>
+                                <div class="col-12">
+                                    {{ email_form.message }}
+                                </div>
+                                <div class="col-12" id="attach">
+                                    <div class="">
+                                        <span><i class="fa fa-paperclip" aria-hidden="true"></i> {% trans 'Attach File' %}</span>
+                                        {{ email_form.document1 }}
+                                    </div>
+                                    <div class="display-hide">
+                                        <span><i class="fa fa-paperclip" aria-hidden="true"></i> {% trans 'Attach File' %}</span>
+                                        {{ email_form.document2 }}
+                                    </div>
+                                    <div class="display-hide">
+                                        <span><i class="fa fa-paperclip" aria-hidden="true"></i> {% trans 'Attach File' %}</span>
+                                        {{ email_form.document3 }}
+                                    </div>
+                                    <div class="display-hide">
+                                        <span><i class="fa fa-paperclip" aria-hidden="true"></i> {% trans 'Attach File' %}</span>
+                                        {{ email_form.document4 }}
+                                    </div>
+                                    <div class="display-hide">
+                                        <span><i class="fa fa-paperclip" aria-hidden="true"></i> {% trans 'Attach File' %}</span>
+                                        {{ email_form.document5 }}
+                                    </div>
+                                    <i id="addFile" class="btn fa fa-plus" aria-hidden="true"></i>
+
+                                </div>
+                                <div class="col-12" style="margin-top: 5px">
+                                    <button type="submit" class="btn rehomes-btn">{% trans 'Send Messages' %}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- **** Contact Area End **** -->
+
+    <script src="{% static 'js/contact_us.js' %}"></script>
+{% endblock %}

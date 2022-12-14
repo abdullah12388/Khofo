@@ -1,0 +1,442 @@
+{% include 'head.html' %}
+{% load my_filters %}
+
+{% block javascript %}
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+{% endblock javascript %}
+
+<div class="row">
+    <div class="col-12 text-center">
+        <a href="/ads/ads_manager_logout/"><button class="btn btn-primary" style="float: right;margin: 5px;" onclick="">Logout</button></a>
+        <h1 style="color: #0069d9">Advertisement Panel</h1>
+    </div>
+</div>
+<div class="row" style="margin-top: 70px;">
+    <div class="col-4">
+        <h3 class="text-center" style="margin-bottom: 20px;">Advertisements Availability Check</h3>
+        <div class="card" style="min-height: 416px;">
+            <header class="card-header">
+                <h6 class="title text-center">Advertisement Dates</h6>
+            </header>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="sd" style="margin: 6px auto;">Start Date</label>
+                            </div>
+                            <div class="col-8">
+                                <input id="sd" name="start_date" type="date" class="form-control" aria-label="start_date" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="ed" style="margin: 6px auto;">End Date</label>
+                            </div>
+                            <div class="col-8">
+                                <input id="ed" name="end_date" type="date" class="form-control" aria-label="end_date" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label for="du" style="margin: 6px auto;">Duration</label>
+                            </div>
+                            <div class="col-8">
+                                <select name="du" class="form-control" id="du">
+                                    <option value="" selected="">---------</option>
+                                    <option value="15">15s</option>
+                                    <option value="30">30s</option>
+                                    <option value="45">45s</option>
+                                    <option value="60">60s</option>
+                                    <option value="75">75s</option>
+                                    <option value="90">90s</option>
+                                    <option value="105">105s</option>
+                                    <option value="120">120s</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">{# page list #}
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label style="margin: 6px auto;" for="select">Page</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="custom-select mr-sm-2" name="page" id="select" required>
+                                    <option value="" selected disabled>Choose...</option>
+                                    <option value="home">Home</option>
+                                    <option value="c">Categories</option>
+                                    <option value="sc">Sub-Categories</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="cat" style="display: none;">{# category list #}
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label style="margin: 6px auto;" for="cat-select">Categories</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="custom-select mr-sm-2" name="category" id="cat-select">
+                                    <option value="" selected disabled>Choose...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" id="sub-cat" style="display: none;">{# sub-category list #}
+                    <div class="form-group col-md-12 text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <label style="margin: 6px auto;" for="sub-cat-select">Sub-Categories</label>
+                            </div>
+                            <div class="col-8">
+                                <select class="custom-select mr-sm-2" name="sub_category" id="sub-cat-select">
+                                    <option value="" selected disabled>Choose...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <button class="btn btn-primary" onclick="viewChart()">View Chart</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <h3 class="text-center" style="margin-bottom: 20px;">Add Advertisements</h3>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card">
+                <header class="card-header">
+                    <h6 class="title text-center">Advertisement Details</h6>
+                </header>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="advertiserName">{{ form.advertiserName.label }}</label>
+                                    {{ form.advertiserName }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="advertiserEmail">{{ form.advertiserEmail.label }}</label>
+                                    {{ form.advertiserEmail }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="advertiserPhone">{{ form.advertiserPhone.label }}</label>
+                                    {{ form.advertiserPhone }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="image">{{ form.image.label }}</label>
+                                    {{ form.image }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="duration">{{ form.duration.label }}</label>
+                                    {{ form.duration }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="interval">{{ form.interval.label }}</label>
+                                    {{ form.interval }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="startDate">{{ form.startDate.label }}</label>
+                                    {{ form.startDate }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="endDate">{{ form.endDate.label }}</label>
+                                    {{ form.endDate }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="page">{{ form.page.label }}</label>
+                                    {{ form.page }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary" type="submit">Add Advertisement</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" style="margin-top: 70px;">
+    <div class="col-12 text-center">
+        <h3 class="text-center" style="margin-bottom: 20px;">Advertisements Chart</h3>
+        <div style="width: 1200px;margin: auto;">
+            <canvas id="1" aria-hidden="true"></canvas>
+        </div>
+    </div>
+</div>
+
+{% include 'scripts.html' %}
+
+<script>
+    var sd = document.getElementById('sd');
+    var ed = document.getElementById('ed');
+    var du = document.getElementById('du');
+    var sel = document.getElementById('select');
+    var cat_div = document.getElementById('cat');
+    var sub_cat_div = document.getElementById('sub-cat');
+    var cat_sel = document.getElementById('cat-select');
+    var sub_cat_sel = document.getElementById('sub-cat-select');
+    sel.onchange = function () {
+        if (sel.value !== 'home') {
+            if (sel.value === 'c') {
+                $.ajax({
+                    type: 'GET',
+                    url: "/ads/GetAllCategories/",
+                    data: {
+                        'c': 'c',
+                    },
+                    dataType: 'json',
+                    traditional: true,
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (data) {
+                        if (data.done) {
+                            for (let i = 0; i < data.catList.length; i++) {
+                                var opt = document.createElement('option');
+                                opt.setAttribute('value', data.catList[i].id);
+                                opt.innerHTML = data.catList[i].name;
+                                cat_sel.appendChild(opt);
+                            }
+                            cat_div.style.display = 'block';
+                        }
+                    }
+                });
+                sub_cat_div.style.display = 'none';
+                cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+                sub_cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+            } else if (sel.value === 'sc') {
+                if (cat_sel.length > 1) {
+                    cat_sel.onchange = function () {
+                        $.ajax({
+                            type: 'GET',
+                            url: "/ads/GetAllSubCategories/",
+                            data: {
+                                'cat_id': cat_sel.value,
+                            },
+                            dataType: 'json',
+                            traditional: true,
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.done) {
+                                    for (let i = 0; i < data.subCatList.length; i++) {
+                                        var opt2 = document.createElement('option');
+                                        opt2.setAttribute('value', data.subCatList[i].id);
+                                        opt2.innerHTML = data.subCatList[i].name;
+                                        sub_cat_sel.appendChild(opt2);
+                                    }
+                                }
+                            }
+                        });
+                        sub_cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+                    };
+                    cat_div.style.display = 'block';
+                    sub_cat_div.style.display = 'block';
+                } else {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/ads/GetAllCategories/",
+                        data: {
+                            'c': 'c',
+                        },
+                        dataType: 'json',
+                        traditional: true,
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            if (data.done) {
+                                for (let i = 0; i < data.catList.length; i++) {
+                                    var opt = document.createElement('option');
+                                    opt.setAttribute('value', data.catList[i].id);
+                                    opt.innerHTML = data.catList[i].name;
+                                    cat_sel.appendChild(opt);
+                                }
+                            }
+                        }
+                    });
+                    cat_sel.onchange = function () {
+                        $.ajax({
+                            type: 'GET',
+                            url: "/ads/GetAllSubCategories/",
+                            data: {
+                                'cat_id': cat_sel.value,
+                            },
+                            dataType: 'json',
+                            traditional: true,
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (data) {
+                                if (data.done) {
+                                    for (let i = 0; i < data.subCatList.length; i++) {
+                                        var opt2 = document.createElement('option');
+                                        opt2.setAttribute('value', data.subCatList[i].id);
+                                        opt2.innerHTML = data.subCatList[i].name;
+                                        sub_cat_sel.appendChild(opt2);
+                                    }
+                                }
+                            }
+                        });
+                        sub_cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+                    };
+                    cat_div.style.display = 'block';
+                    sub_cat_div.style.display = 'block';
+                }
+            } else {
+                console.log('no select')
+            }
+        } else {
+            cat_div.style.display = 'none';
+            sub_cat_div.style.display = 'none';
+            cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+            sub_cat_sel.innerHTML = "<option value=\"\" selected disabled>Choose...</option>";
+        }
+    };
+
+    function argMax(array) {
+        return array.map((x, i) => [x, i]).reduce((r, a) => (a[0] > r[0] ? a : r))[1];
+    }
+
+    function viewChart() {
+        console.log(sd.value);
+        console.log(ed.value);
+        console.log(sel.value);
+        console.log(du.value);
+        console.log(cat_sel.value);
+        console.log(sub_cat_sel.value);
+        $.ajax({
+            type: 'GET',
+            url: "/ads/adsManagement/",
+            data: {
+                start_date: sd.value,
+                end_date: ed.value,
+                page: sel.value,
+                duration: du.value,
+                category: cat_sel.value,
+                sub_category: sub_cat_sel.value,
+            },
+            dataType: 'json',
+            traditional: true,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.done) {
+                    var lbls = data.lables;
+                    var dfdta = data.defaultData;
+                    // var color = dfdta.map(x => 'rgba(75, 192, 192, 1)');
+                    // color[argMax(dfdta)] = 'red';
+                    BarChart(lbls, dfdta);
+                    /*PieChart(lbls, dfdta);
+                    HBarChart(lbls, dfdta);*/
+                    document.getElementById('startDate').value = sd.value;
+                    document.getElementById('endDate').value = ed.value;
+                    document.getElementById('duration').value = du.value;
+                    if (sel.value === 'home') {
+                        document.getElementById('page').value = 'home';
+                    } else if (sel.value === 'c' && cat_sel !== 'none') {
+                        document.getElementById('page').value = cat_sel.options[cat_sel.selectedIndex].innerHTML;
+                    } else if (sel.value === 'sc' && cat_sel !== 'none' && sub_cat_sel !== 'none') {
+                        document.getElementById('page').value = sub_cat_sel.options[sub_cat_sel.selectedIndex].innerHTML;
+                    } else {
+                        console.log('error')
+                    }
+                    notifyMe('This ad is available for adding.')
+                }else{
+                    var lbls = data.lables;
+                    var dfdta = data.defaultData;
+                    // var color = dfdta.map(x => 'rgba(75, 192, 192, 1)');
+                    // color[argMax(dfdta)] = 'red';
+                    BarChart(lbls, dfdta);
+                    /*PieChart(lbls, dfdta);
+                    HBarChart(lbls, dfdta);*/
+                    notifyMe('There is a full day at least in the ad period!')
+                }
+            }
+        });
+
+        function BarChart(lbls, dfdta) {
+            var ctx = document.getElementById('1').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: lbls,
+                    datasets: [{
+                        label: '# of ADS',
+                        data: dfdta,
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scaleShowValues: true,
+                    title: {
+                        display: true,
+                        text: 'Vertical Bar Chart Of Available Days For Ads'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                        axis: 'x',
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            })
+        }
+    }
+</script>
+{% if request.GET.error == 'f' %}
+    <script>notifyMe('There is a full day in the ad period!')</script>
+{% endif %}
+{% if request.GET.success == 't' %}
+    <script>notifyMe('The ad is added successfully.')</script>
+{% endif %}

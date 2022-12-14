@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+{% load staticfiles %}
+{% block profile %}
+
+    <!-- profile -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/profile_base.css' %}">
+
+
+    <div class="row" style="margin-top: 20px">
+        <div class="col-md-2">
+            <div class="list-group">
+                {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                    {% if request.META.PATH_INFO == "/ar/user/profile/" %}
+                        <a href="/ar/user/profile/" class="list-group-item list-group-item-action active">
+                            <i class="fa fa-user" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Account' %}
+                        </a>
+                    {% else %}
+                        <a href="/ar/user/profile/" class="list-group-item list-group-item-action">
+                            <i class="fa fa-user" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Account' %}
+                        </a>
+                    {% endif %}
+                    {% if request.META.PATH_INFO == "/ar/user/orders/" %}
+                        <a href="/ar/user/orders/" class="list-group-item list-group-item-action active">
+                            <i class="fa fa-archive" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Orders' %}
+                        </a>
+                    {% else %}
+                        <a href="/ar/user/orders/" class="list-group-item list-group-item-action">
+                            <i class="fa fa-archive" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Orders' %}
+                        </a>
+                    {% endif %}
+                {% else %}
+                    {% if request.META.PATH_INFO == "/en/user/profile/" %}
+                        <a href="/en/user/profile/" class="list-group-item list-group-item-action active">
+                            <i class="fa fa-user" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Account' %}
+                        </a>
+                    {% else %}
+                        <a href="/en/user/profile/" class="list-group-item list-group-item-action">
+                            <i class="fa fa-user" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Account' %}
+                        </a>
+                    {% endif %}
+                    {% if request.META.PATH_INFO == "/en/user/orders/" %}
+                        <a href="/en/user/orders/" class="list-group-item list-group-item-action active">
+                            <i class="fa fa-archive" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Orders' %}
+                        </a>
+                    {% else %}
+                        <a href="/en/user/orders/" class="list-group-item list-group-item-action">
+                            <i class="fa fa-archive" style="font-weight: 500;margin-right: 5px" aria-hidden="true"></i>
+                            {% trans 'Orders' %}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-10">
+
+            {% block customer_profile %}
+            {% endblock %}
+
+            {% block account_details %}
+            {% endblock %}
+
+            {% block change_password %}
+            {% endblock %}
+
+            {% block address_book %}
+            {% endblock %}
+
+            {% block user_orders %}
+            {% endblock %}
+
+        </div>
+    </div>
+
+{% endblock %}

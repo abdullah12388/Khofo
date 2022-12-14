@@ -1,0 +1,113 @@
+.n-carousel {
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex
+}
+
+.n-carousel.vertical {
+    flex-direction: column
+}
+
+.n-carousel.snap {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch
+}
+
+.n-carousel.snap > div {
+    scroll-snap-align: center
+}
+
+.n-carousel.snap.vertical {
+    flex-direction: column;
+    scroll-snap-type: y mandatory
+}
+
+.n-carousel.snap {
+    scroll-snap-type: mandatory;
+    -ms-scroll-snap-type: mandatory;
+    scroll-snap-points-x: repeat(100%);
+    -ms-scroll-snap-points-x: repeat(100%)
+}
+
+.n-carousel.snap.vertical {
+    scroll-snap-points-x: initial;
+    -ms-scroll-snap-points-x: initial;
+    scroll-snap-points-y: repeat(100%);
+    -ms-scroll-snap-points-y: repeat(100%)
+}
+
+.n-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
+
+.n-carousel > div {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    font-size: 20px
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #183765;
+    background-image: none;
+}
+
+
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Custom Select */
+.select {
+    position: relative;
+    display: flex;
+    height: 3em;
+    line-height: 3;
+    background: #183765;
+    overflow: hidden;
+    border-radius: 1px;
+}
+
+
+
+/* Arrow */
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #183765;
+    color: #fff;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+}
+
+/* Transition */
+.select:hover::after {
+    color: #f39c12;
+}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load mathfilters %}
+{% load my_filters %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block product_search_results %}
+    {% if products %}
+        <div class="row" style="margin-top: 70px;">
+            <div class="col-sm-12">
+                <div class="row" style="margin-bottom: 28px">
+                    {% for product in products %}
+                        <div class="col-md-3 text-center">
+                            <div class="card" style="margin: 5px auto">
+                                <div class="card-body">
+                                    <a class="hover_black" href="{% url 'products:product_details' product.id %}">
+                                        <div class="text-center grid-product-img">
+                                            <img alt="product img" class="" src="{{ product.main_img.url }}"
+                                                 style="max-height: 100%; max-width: 100%;">
+                                        </div>
+                                    </a>
+                                    {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}
+                                        <a class="hover_black" href="/ar/productHome/product/{{ product.id }}/">
+                                            <h5 class="card-title">{{ product.name_ar }}</h5>
+                                        </a>
+                                        <p class="card-text" style="overflow: hidden;max-height: 15ch;">
+                                            {{ product.short_description_ar }}</p>
+                                        <a class="btn btn-primary"
+                                           href="/ar/productHome/product/{{ product.id }}/">{% trans 'show' %}</a>
+
+                                    {% else %}
+                                        <a class="hover_black" href="/en/productHome/product/{{ product.id }}/">
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                        </a>
+                                        <p class="card-text" style="overflow: hidden;max-height: 15ch;">
+                                            {{ product.short_description }}</p>
+                                        <a class="btn btn-primary"
+                                           href="/en/productHome/product/{{ product.id }}/">{% trans 'show' %}</a>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% with p=request.GET.page %}
+                    {% for x in products.paginator.num_pages|times %}
+                        {% if x|add:1 == p|to_int %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ x|add:1 }}">{{ x|add:1 }}<span
+                                    class="sr-only">(current)</span></a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ x|add:1 }}">{{ x|add:1 }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% endwith %}
+                {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.next_page_number }}">{% trans 'Next' %}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.paginator.num_pages }}">{% trans 'Last' %}&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    
+    {% else %}
+        <h1 class="text-center">No Search Results</h1>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+<!-- Recently Viewed -->
+<div class="container-fluid" id="recentViewed" style="margin-top: 43px">
+    <div class="row product_scroll">
+        <div class="col-sm-1">
+            <p class="headline"><b>{% trans 'recently viewed' %}</b></p>
+        </div>
+        <div class="col-11">
+            <div class="gallery">
+                <div id="recentParent" class="gallery_scroller_RV style-2 scrollbar-2">
+
+                </div>
+                <span class="btn prev" aria-hidden="true"></span>
+                <span class="btn next" aria-hidden="true"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="{% static 'js/show_recent.js' %}"></script>
+<script src="{% static 'js/parentSliderRecentViewed.js' %}"></script>
+<script src="{% static 'js/ads.js' %}"></script>
+<script type="text/javascript">
+    if (document.getElementById('ExvgsJZclGVQ')) {
+        console.log('no adblock');
+    } else {
+        notifyMe('Please consider supporting us by disabling your ad blocker.');
+        window.stop();
+    }
+</script>

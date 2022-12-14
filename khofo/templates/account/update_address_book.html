@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block add_address_book %}
+
+<!-- Add Address Book -->
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>{% trans 'Address Book' %}</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="username" class="col-4 col-form-label">Address</label>
+                        <div class="col-8">
+                            {{form.address}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">country</label>
+                        <div class="col-8">
+                            {{form.country}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">governorate</label>
+                        <div class="col-8">
+                            {{form.governorate}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="lastname" class="col-4 col-form-label">mobile</label>
+                        <div class="col-8">
+                            {{form.mobile}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="offset-4 col-8">
+                            <button name="submit" type="submit" class="btn btn-success">
+                                {% trans 'Update Address Book' %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

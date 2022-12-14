@@ -1,0 +1,77 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ads Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'images/favicon1.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.css"
+          integrity="sha384-t4IGnnWtvYimgcRMiXD2ZD04g28Is9vYsVaHo5LcWWJkoQGmMwGg+QS0mYlhbVv3" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+            integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+            crossorigin="anonymous"></script>
+    <style>
+        body, html {
+            background-image: url('{% static "images/new/Sandstone.jpg"%}');
+            background-size: cover;
+            height: 100%;
+        }
+
+        #profile-img {
+            height: 180px;
+        }
+
+        #profile-name {
+            font-weight: bolder;
+            color: #183765;
+        }
+
+        .h-80 {
+            height: 80% !important;
+        }
+    </style>
+</head>
+<body>
+<div class="container h-80">
+    <div class="row align-items-center h-100">
+        <div class="col-4 mx-auto">
+            <div class="text-center">
+                <img id="profile-img" class="profile-img-card" src="{% static 'images/new/Sandstone-logo77.png' %}"/>
+                <h1 id="profile-name" class="profile-name-card">Login</h1>
+                <form class="form-signin" method="post" action="/en/ads/adsManagerlogin/">
+                    {% csrf_token %}
+                    <div class="validate-input" data-validate="Enter username">
+                        <input type="text" name="username" id="inputPassword" class="form-control form-group"
+                               placeholder="username" required>
+                    </div>
+                    <div class="validate-input" data-validate="Enter password">
+                        <input type="password" name="password" id="inputPassword" class="form-control form-group"
+                               placeholder="password" required>
+                    </div>
+                    <button class="btn btn-lg btn-block btn-signin" style="min-width: 25%;max-width: 50%;margin: auto;background-color:#183765;color:#fff;" type="submit">Enter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% if request.GET.error == 'nf' %}
+<script>notifyMe('The username not found!')</script>
+{% endif %}
+{% if request.GET.error == 'na' %}
+<script>notifyMe('This user is not activated!')</script>
+{% endif %}
+{% if request.GET.error == 'nau' %}
+<script>notifyMe('The username or password is incorrect')</script>
+{% endif %}
+{% if request.GET.error == 'ns' %}
+<script>notifyMe('This user is not part of the staff!')</script>
+{% endif %}
+{% if request.GET.error == 'nam' %}
+<script>notifyMe('This user is not ads manager!')</script>
+{% endif %}
+</body>
+</html>

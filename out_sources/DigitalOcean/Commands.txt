@@ -1,0 +1,37 @@
+# runserver in background
+#---------------------------------------------------------------
+nohup python manage.py runserver 0.0.0.0:8000 &
+
+# list all the running processes
+#---------------------------------------------------------------
+ps -ef
+
+# kill specific running processes
+#---------------------------------------------------------------
+kill PID
+
+
+-------------------------------------------------------------------------------------------
+screen
+screen -r
+screen -r id
+-------------------------------------------------------------------------------------------
+
+#-----------------------------------
+~/myprojectsdir/khofo/venv-khufu/bin/activate
+
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn.socket gunicorn.service
+
+sudo systemctl restart gunicorn
+sudo nano /etc/nginx/sites-available/khufu
+sudo systemctl restart nginx
+
+sudo journalctl -u gunicorn | tail -n 50
+
+
+source ~/myprojectsdir/khofo/venv-khufu/bin/activate && cd ~/myprojectsdir/khofo/khofo && git fetch && git pull
+
+#-----------last 20 line of log file-----------------------------------------------
+
+sudo journalctl -u gunicorn | tail -n 20

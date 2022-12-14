@@ -1,0 +1,114 @@
+{% extends "account/profile_base.html" %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load my_filters %}
+{% load i18n %}
+
+{% block user_orders %}
+    {% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' %}
+
+        <!-- Short Edit -->
+        <div class="" style="padding: 10px">
+            {% regroup orders by invoice_id as order_list %}
+            <div class="accordion" id="accordionExample">
+                {% for ord in order_list %}
+                    <div class="card">
+                        <div class="card-header" id="headingOne" style="margin-bottom: 8px;padding:0px;">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse{{ forloop.counter0 }}" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                    {% trans 'Invoice' %} {{ ord.grouper }}
+                                </button>
+                            </h2>
+                        </div>
+                        {% for order in ord.list %}
+                            <div id="collapse{{ forloop.parentloop.counter0 }}" class="collapse hide"
+                                 aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row product_scroll"
+                                         style="margin:inherit; height: 200px; padding: 10px">
+                                        <div class="col-3 overflow-1" style="height: 100%">
+                                            <a href="/ar/productHome/product/{{ order.product_id }}">
+                                                <img src="/media/{{ order.product_id|get_product_img }}"
+                                                     class="img-control_0" alt="order-img">
+                                            </a>
+                                        </div>
+                                        <div class="col-4 overflow-1" style="padding: 10px">
+                                            <p class="user-order-product-font-name">
+                                                <a href="/ar/productHome/product/{{ order.product_id }}">
+                                                    {{ order.product_id|get_product_name_ar }}
+                                                </a>
+                                            </p>
+                                            <p class="user-order-product-font">
+                                                <b style="color: green">{% trans 'ordered on' %}: </b>{{ order.created_on }}
+                                            </p>
+                                            <p class="user-order-product-font">
+                                                <b style="color: green">{% trans 'status' %} : </b>{{ order.status }}
+                                            </p>
+                                        </div>
+                                        <div class="col-5 overflow-1 user-order-product-font-desc">
+                                            <span>{{ order.product_id|get_product_short_desc }}</span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Short Edit -->
+        <div class="" style="padding: 10px">
+            {% regroup orders by invoice_id as order_list %}
+            <div class="accordion" id="accordionExample">
+                {% for ord in order_list %}
+                    <div class="card">
+                        <div class="card-header" id="headingOne" style="margin-bottom: 8px;padding:0px;">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse"
+                                        data-target="#collapse{{ forloop.counter0 }}" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                    Invoice {{ ord.grouper }}
+                                </button>
+                            </h2>
+                        </div>
+                        {% for order in ord.list %}
+                            <div id="collapse{{ forloop.parentloop.counter0 }}" class="collapse hide"
+                                 aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <div class="row product_scroll"
+                                         style="margin:inherit; height: 200px; padding: 10px">
+                                        <div class="col-3 overflow-1" style="height: 100%">
+                                            <a href="/en/productHome/product/{{ order.product_id }}">
+                                                <img src="/media/{{ order.product_id|get_product_img }}"
+                                                     class="img-control_0" alt="order-img">
+                                            </a>
+                                        </div>
+                                        <div class="col-4 overflow-1" style="padding: 10px">
+                                            <p class="user-order-product-font-name">
+                                                <a href="/en/productHome/product/{{ order.product_id }}">
+                                                    {{ order.product_id|get_product_name }}
+                                                </a>
+                                            </p>
+                                            <p class="user-order-product-font">
+                                                <b style="color: green">{% trans 'ordered on' %}: </b>{{ order.created_on }}
+                                            </p>
+                                            <p class="user-order-product-font">
+                                                <b style="color: green">{% trans 'status' %} : </b>{{ order.status }}
+                                            </p>
+                                        </div>
+                                        <div class="col-5 overflow-1 user-order-product-font-desc">
+                                            <span>{{ order.product_id|get_product_short_desc }}</span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

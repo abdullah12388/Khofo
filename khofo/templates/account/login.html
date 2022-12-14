@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+{% block login %}
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/login_register.css' %}">
+
+
+    <div class="container register" style="max-width: 840px;">
+        <div class="row">
+            {% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' %}
+                <div class="col-md-3 register-left">
+                    <img src="{{ request.session.site_info.login_logo }}" alt="logo"/>
+                    <h3 style="color: #FFF">{% trans 'Welcome' %}</h3>
+                    <p style="color: #FFF">{% trans 'If you are not registered click on Register!' %}</p>
+                </div>
+                <div class="col-md-9 register-right">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab"
+                           aria-controls="login" aria-selected="true">{% trans 'Login' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="newuser-tab" data-toggle="tab" href="#newuser" role="tab"
+                           aria-controls="newuser" aria-selected="false">{% trans 'Register' %}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Login form -->
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <h2 class="register-heading mb-4">{% trans 'Login' %}</h2>
+                        <div class="row register-form">
+                            <div class="col-md-12 profile_card">
+                                <form method="post" action="/ar/user/login/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon1"><i
+                                                        class="fa fa-user" aria-hidden="true"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control border-radius"
+                                                   placeholder="{% trans 'Username' %}"
+                                                   required minlength="4" maxlength="30"
+                                                   aria-label="Username" name="username"
+                                                   aria-describedby="basic-addon1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon2"><i
+                                                        class="fa fa-lock"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control border-radius"
+                                                   placeholder="{% trans 'Password' %} *" required minlength="8"
+                                                   maxlength="30" aria-label="password" name="password"
+                                                   aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+                                    <div class="text-center mb-3">
+                                        <input type="submit" class="btn login-btn border-radius"
+                                               value="{% trans 'Login' %}"
+                                               aria-label="submit"/>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="" data-toggle="collapse"
+                                           data-target="#forget-password">{% trans 'Forget Password?' %}</a>
+                                    </div>
+
+                                    {% if request.GET.next %}
+                                        <input type="hidden" name="next" value="{{ request.GET.next }}"
+                                               aria-label="next"/>
+                                    {% endif %}
+                                </form>
+                                <div id="forget-password" class="collapse text-center form-inline forget-password">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                    <span class="input-group-text border-radius" id="basic-addon4"><i
+                                                            class="fa fa-envelope" aria-hidden="true"></i></span>
+                                            </div>
+                                            <input id="userEmail" type="email" class="form-control border-radius"
+                                                   placeholder="{% trans 'Email' %}" maxlength="50" minlength="6"
+                                                   required aria-label="Email" name="email"
+                                                   pattern="[^@]+@[^@]+\.[a-zA-Z]{2,20}"
+                                                   aria-describedby="Forget-Password">
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button id="forgetPassword border-radius login-btn" class="btn btn-sm">
+                                                {% trans 'Send' %}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Register form -->
+                    <div class="tab-pane fade show" id="newuser" role="tabpanel" aria-labelledby="newuser-tab">
+                        <h2 class="register-heading mb-4">{% trans 'Register' %}</h2>
+                        <div class="row register-form">
+                            <div class="col-md-12">
+                                <form method="post" action="/ar/user/signup/">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon3">
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i></span>
+                                            </div>
+                                            <input type="email" class="form-control border-radius"
+                                                   placeholder="{% trans 'Email' %}"
+                                                   maxlength="60" minlength="7" required
+                                                   pattern="[^@]+@[^@]+\.[a-zA-Z]{2,20}"
+                                                   aria-label="Email" name="email"
+                                                   aria-describedby="basic-addon3">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon4">
+                                                    <i class="fa fa-user" aria-hidden="true"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control border-radius"
+                                                   placeholder="{% trans 'Username' %}"
+                                                   maxlength="30" minlength="5" required
+                                                   aria-label="Username" name="username"
+                                                   aria-describedby="basic-addon4">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                            <span class="input-group-text border-radius" id="basic-addon5"><i
+                                                    class="fa fa-lock"
+                                                    aria-hidden="true"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control border-radius"
+                                                   placeholder="{% trans 'Password' %} *"
+                                                   maxlength="30" minlength="8" required
+                                                   aria-label="password" name="password"
+                                                   aria-describedby="basic-addon5">
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <input type="submit" class="btn login-btn border-radius"
+                                               value="{% trans 'Register' %}"
+                                               aria-label="register"/>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-3 register-left">
+                    <img id="loginLogo" src="{{ request.session.site_info.login_logo }}" alt="logo"/>
+                    <h3 style="color: #FFF">{% trans 'Welcome' %}</h3>
+                    <p style="color: #FFF">{% trans 'If you are not registered click on Register!' %}</p>
+                </div>
+                <div class="col-md-9 register-right">
+                    <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab"
+                               aria-controls="login" aria-selected="true">{% trans 'Login' %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="newuser-tab" data-toggle="tab" href="#newuser" role="tab"
+                               aria-controls="newuser" aria-selected="false">{% trans 'Register' %}</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Login form -->
+                        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                            <h2 class="register-heading mb-4">{% trans 'Login' %}</h2>
+                            <div class="row register-form">
+                                <div class="col-md-12 profile_card">
+                                    <form method="post" action="/en/user/login/">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="input-group mb-4">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon1"><i
+                                                        class="fa fa-user" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control border-radius"
+                                                       placeholder="{% trans 'Username' %}"
+                                                       required minlength="4" maxlength="30"
+                                                       aria-label="Username" name="username"
+                                                       aria-describedby="basic-addon1">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group mb-4">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon2"><i
+                                                        class="fa fa-lock" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control border-radius"
+                                                       placeholder="{% trans 'Password' %} *" required minlength="8"
+                                                       maxlength="30" aria-label="password" name="password"
+                                                       aria-describedby="basic-addon2">
+                                            </div>
+                                        </div>
+                                        <div class="text-center mb-3">
+                                            <input type="submit" class="btn login-btn border-radius"
+                                                   value="{% trans 'Login' %}"
+                                                   aria-label="login"/>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="" data-toggle="collapse"
+                                               data-target="#forget-password">{% trans 'Forget Password?' %}</a>
+                                        </div>
+
+                                        {% if request.GET.next %}
+                                            <input type="hidden" name="next" value="{{ request.GET.next }}"
+                                                   aria-label="next"/>
+                                        {% endif %}
+                                    </form>
+                                    <div id="forget-password" class="collapse text-center form-inline forget-password">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text border-radius" id="basic-addon4"><i
+                                                            class="fa fa-envelope" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input id="userEmail" type="email" class="form-control border-radius"
+                                                       placeholder="{% trans 'Email' %}" maxlength="50" minlength="6"
+                                                       required aria-label="Email" name="email"
+                                                       pattern="[^@]+@[^@]+\.[a-zA-Z]{2,20}"
+                                                       aria-describedby="Forget-Password">
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button id="forgetPassword" class="btn btn-sm border-radius login-btn">
+                                                    <span id="forgetPasswordSend">{% trans 'Send' %}</span>
+                                                    <i id="loginIconLoader"
+                                                       class="fa fa-circle-o-notch fa-spin"
+                                                       style="display: none;width: 35px;font-size: 21px;"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Register form -->
+                        <div class="tab-pane fade show" id="newuser" role="tabpanel" aria-labelledby="newuser-tab">
+                            <h2 class="register-heading mb-4">{% trans 'Register' %}</h2>
+                            <div class="row register-form">
+                                <div class="col-md-12">
+                                    <form method="post" action="/en/user/signup/">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon3"><i
+                                                        class="fa fa-envelope" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input type="email" class="form-control border-radius"
+                                                       placeholder="{% trans 'Email' %}"
+                                                       maxlength="60" minlength="7" required aria-label="Email"
+                                                       name="email"
+                                                       pattern="[^@]+@[^@]+\.[a-zA-Z]{2,20}"
+                                                       aria-describedby="basic-addon3">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon4"><i
+                                                        class="fa fa-user" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input type="text" class="form-control border-radius"
+                                                       placeholder="{% trans 'Username' %}"
+                                                       maxlength="30" minlength="4" required
+                                                       aria-label="Username" name="username"
+                                                       aria-describedby="basic-addon4">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text border-radius" id="basic-addon5"><i
+                                                        class="fa fa-lock" aria-hidden="true"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control border-radius"
+                                                       placeholder="{% trans 'Password' %} *"
+                                                       maxlength="30" minlength="8" required
+                                                       aria-label="password" name="password"
+                                                       aria-describedby="basic-addon5">
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <input type="submit" class="btn login-btn border-radius"
+                                                   value="{% trans 'Register' %}"
+                                                   aria-label="register"/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags %}
+                {{ message.tags }}<br>
+                {{ message }}
+                <script type="text/javascript">
+                    notifyMe('{{ message.tags }}' + '\n' + '{{ message }}');
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <script type="text/javascript" src="{% static 'js/user.js' %}"></script>
+{% endblock %}

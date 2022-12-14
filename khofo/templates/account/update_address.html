@@ -1,0 +1,72 @@
+{% extends "account/profile_base.html" %}
+
+{% load i18n %}
+
+{% block address_book %}
+
+<!-- Update Address Book -->
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Address Book</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="username" class="col-4 col-form-label">{% trans 'address' %}</label>
+                        <div class="col-8">
+                            {{form.address}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">{% trans 'country' %}</label>
+                        <div class="col-8">
+                            {{form.country}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">{% trans 'region' %}</label>
+                        <div class="col-8">
+                            {{form.region}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">{% trans 'city' %}</label>
+                        <div class="col-8">
+                            {{form.city}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="select" class="col-4 col-form-label">{% trans 'zip_code' %}</label>
+                        <div class="col-8">
+                            {{form.zip_code}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="lastname" class="col-4 col-form-label">{% trans 'mobile' %}</label>
+                        <div class="col-8">
+                            {{form.mobile}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="offset-4 col-8">
+                            <button name="submit" type="submit" class="btn btn-success border-radius" style="width:100%">
+                                {% trans 'Update Address Book' %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% load staticfiles %}
+{% load my_filters %}
+{% load admin_extras %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en" class="style-2 scrollbar-2">
+<head>
+    {% include "head.html" %}
+</head>
+
+{% if request.session.site_info %}
+    <body class="style-2 scrollbar-2" onload="myFunction({{ 1 }})" style="margin:0;z-index: 501;">
+{% else %}
+    <body class="style-2 scrollbar-2" onload="myFunction({{ 2000 }})" style="margin:0;z-index: 501;">
+{% endif %}
+
+<div id="loader" style="z-index: 500" aria-hidden="true"></div>
+<loader style="display:none;" id="myBodyDiv" class="">
+    {# Navigation Menu #}
+    {% include "main_nav.html" %}
+    <div class="container-fluid" style="z-index: 0">
+        {# index #}
+        {% block index %}
+        {% endblock %}
+
+        {# login #}
+        {% block login %}
+        {% endblock %}
+
+        {# adsManagements #}
+        {#        {% block adsManagements %}#}
+        {#        {% endblock %}#}
+
+        {# profile #}
+        {% block profile %}
+        {% endblock %}
+
+        {# address_book #}
+        {% block add_address_book %}
+        {% endblock %}
+
+        {# register #}
+        {#        {% block register %}#}
+        {#        {% endblock %}#}
+
+        {# register #}
+        {% block contact_us %}
+        {% endblock %}
+
+        {# product #}
+        {#{% block product %}#}
+        {#{% endblock %}#}
+
+        {# product_search_results #}
+        {% block product_search_results %}
+        {% endblock %}
+        {# category #}
+        {% block category %}
+        {% endblock %}
+
+        {% block category_update %}
+        {% endblock %}
+
+        {# sub-category #}
+        {% block sub-category %}
+        {% endblock %}
+
+        {# cart #}
+        {% block cart %}
+        {% endblock %}
+
+        {# final_cart #}
+        {% block final_cart %}
+        {% endblock %}
+
+        {# product_review #}
+        {% block product_review %}
+        {% endblock %}
+
+        {# 404 page not found #}
+        {% block page404 %}
+        {% endblock %}
+
+        {# user_export #}
+        {% block user_export %}
+        {% endblock %}
+
+        {# delegate_export #}
+        {% block delegate_export %}
+        {% endblock %}
+
+        {% block chat %}
+        {% endblock %}
+    </div>
+    {# product #}
+    {% block product %}
+    {% endblock %}
+
+    {# product_details_read_only #}
+    {% block product_details_read_only %}
+    {% endblock %}
+
+    {# recent_slider #}
+    {% include "recent_slider.html" %}
+    {# The Footer #}
+    {% include "footer.html" %}
+</loader>
+
+{% include "scripts.html" %}
+</body>
+</html>

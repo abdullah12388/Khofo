@@ -1,0 +1,87 @@
+<!--{% extends 'base.html' %}-->
+<!--{% load staticfiles %}-->
+<!--&lt;!&ndash; custom filter module &ndash;&gt;-->
+<!--{% load admin_extras %}-->
+<!--{% load i18n %}-->
+
+<!--{% block register %}-->
+<!--    &lt;!&ndash; Login  &ndash;&gt;-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="icon" type="image/png" href="{% static 'styles/login/images/icons/favicon.ico' %}"/>-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/vendor/bootstrap/css/bootstrap.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css"-->
+<!--          href="{% static 'styles/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css"-->
+<!--          href="{% static 'styles/login/fonts/iconic/css/material-design-iconic-font.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/vendor/animate/animate.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/vendor/css-hamburgers/hamburgers.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/vendor/animsition/css/animsition.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/vendor/select2/select2.min.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css"-->
+<!--          href="{% static 'styles/login/vendor/daterangepicker/daterangepicker.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/css/util.css' %}">-->
+<!--    <link rel="stylesheet" type="text/css" href="{% static 'styles/login/css/main.css' %}">-->
+<!--    &lt;!&ndash;===============================================================================================&ndash;&gt;-->
+
+<!--    {% if request.GET.error == 'ue' %}-->
+<!--        <script>notifyMe('The username is already exists!')</script>-->
+<!--    {% endif %}-->
+
+<!--    </head>-->
+<!--    <div class="limiter">-->
+<!--        <div class="container-login101">-->
+<!--            <div class="wrap-login101">-->
+<!--                <form class="login100-form validate-form" method='POST' action=''>-->
+<!--                    {% csrf_token %}-->
+<!--                    <span class="login100-form-logo">-->
+<!--						<i class="zmdi zmdi-landscape" aria-hidden="true"></i>-->
+<!--					</span>-->
+
+<!--                    <span class="login100-form-title p-b-34 p-t-27">-->
+<!--						{% trans 'Sign Up' %}-->
+<!--					</span>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter E-mail' %}">-->
+<!--                        {{ user_form.email }}-->
+<!--                    </div>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter username' %}">-->
+<!--                        {{ user_form.username }}-->
+<!--                    </div>-->
+
+<!--                    <div class="wrap-input100 validate-input" data-validate="{% trans 'Enter password' %}">-->
+<!--                        {{ user_form.password }}-->
+<!--                    </div>-->
+
+<!--                    <div class="container-login100-form-btn">-->
+<!--                        <button class="login100-form-btn">-->
+<!--                            {% trans 'Sign Up' %}-->
+<!--                        </button>-->
+<!--                    </div>-->
+
+<!--                    <div class="text-center p-t-90">-->
+<!--                        {% if request.LANGUAGE_CODE == "ar" or request.LANGUAGE_CODE == 'ar-eg' %}-->
+<!--                            <a class="txt1" href="/ar/user/login/">-->
+<!--                                {% trans 'Already have an Account' %}?-->
+<!--                            </a>-->
+<!--                        {% else %}-->
+<!--                            <a class="txt1" href="/en/user/login/">-->
+<!--                                {% trans 'Already have an Account' %}?-->
+<!--                            </a>-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div id="dropDownSelect1" aria-hidden="true"></div>-->
+<!--{% endblock %}-->

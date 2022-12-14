@@ -1,0 +1,287 @@
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+
+<!-- Footer -->
+{% with categories=request.session.footer_info site_info=request.session.site_info %}
+    {% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' and categories and site_info %}
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3 footer_col">
+                        <div class="footer_column footer_contact">
+                            <div class="logo_container">
+                                <div class="logo"><a href="#">{{ site_info.name_ar }}</a></div>
+                            </div>
+                            <div class="footer_title">{% trans 'Got a Question? ' %}
+                                <a href="/ar/support/contactus">{% trans 'Call Us' %}</a>
+                            </div>
+                            <div class="footer_phone" style="direction: ltr;">{{ site_info.phone }}</div>
+                            <div class="footer_contact_text">
+                                <p>{{ site_info.address_ar }}</p>
+                            </div>
+                            <div class="footer_social">
+                                <ul>
+                                    <li>
+                                        <a href="{{ site_info.facebook }}" target="_blank"><i
+                                                class="fa fa-facebook-f" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.twitter }}" target="_blank"><i
+                                                class="fa fa-twitter" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.youtube }}" target="_blank"><i
+                                                class="fa fa-youtube" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.google }}" target="_blank"><i
+                                                class="fa fa-google" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.instagram }}" target="_blank"><i
+                                                class="fa fa-instagram" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.linkedin }}" target="_blank"><i
+                                                class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 row">
+                        {% if request.session.footer_info %}
+                            {% for category in categories %}
+                                <div class="col-md-2" style="margin-bottom: 20px">
+                                    <div class="footer_column">
+                                        <div class="footer_title">
+                                            <a href="{% url 'products:category' category.category_ar|first %}">
+                                                {{ category.category_ar|last }}
+                                            </a>
+                                        </div>
+                                        <ul class="footer_list">
+                                            {# {{ category.sub_categories }}#}
+                                            {% for sub_cat in category.sub_categories %}
+                                                <li>
+
+                                                    <a href="/ar/productHome/category/{{ category.category_ar|first }}/subcategory/{{ sub_cat.id }}/products/">
+                                                        {{ sub_cat.name_ar }}
+                                                    </a>
+
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-md-3">
+                                <div class="footer_column">
+                                    <div class="footer_title">wika it Fast</div>
+                                    <ul class="footer_list">
+                                        <li><a href="#">Computers & Laptops</a></li>
+                                        <li><a href="#">Cameras & Photos</a></li>
+                                        <li><a href="#">Hardware</a></li>
+                                        <li><a href="#">Smartphones & Tablets</a></li>
+                                        <li><a href="#">TV & Audio</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+        {% elif request.LANGUAGE_CODE == 'en' or request.LANGUAGE_CODE == 'en-us' and categories and site_info %}
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3 footer_col">
+                        <div class="footer_column footer_contact">
+                            <div class="logo_container">
+                                <div class="logo"><a href="#">{{ site_info.name }}</a></div>
+                            </div>
+                            <div class="footer_title">{% trans 'Got a Question? ' %}
+                                <a href="/en/support/contactus">{% trans 'Call Us' %}</a>
+                            </div>
+                            <div class="footer_phone" style="direction: ltr;">{{ site_info.phone }}</div>
+                            <div class="footer_contact_text">
+                                <p>{{ site_info.address }}</p>
+                            </div>
+                            <div class="footer_social">
+                                <ul>
+                                    <li>
+                                        <a href="{{ site_info.facebook }}" target="_blank"><i
+                                                class="fa fa-facebook-f" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.twitter }}" target="_blank"><i
+                                                class="fa fa-twitter" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.youtube }}" target="_blank"><i
+                                                class="fa fa-youtube" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.google }}" target="_blank"><i
+                                                class="fa fa-google" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.instagram }}" target="_blank"><i
+                                                class="fa fa-instagram" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ site_info.linkedin }}" target="_blank"><i
+                                                class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9 row">
+                        {% if request.session.footer_info %}
+                            {% for category in categories %}
+                                <div class="col-md-2" style="margin-bottom: 20px">
+                                    <div class="footer_column">
+                                        <div class="footer_title">
+                                            <a href="{% url 'products:category' category.category|first %}">
+                                                {{ category.category|last }}
+                                            </a>
+                                        </div>
+                                        <ul class="footer_list">
+                                            {# {{ category.sub_categories }}#}
+                                            {% for sub_cat in category.sub_categories %}
+                                                <li>
+
+                                                    <a href="/en/productHome/category/{{ category.category|first }}/subcategory/{{ sub_cat.id }}/products/">
+                                                        {{ sub_cat.name }}
+                                                    </a>
+
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-md-3">
+                                <div class="footer_column">
+                                    <div class="footer_title">wika it Fast</div>
+                                    <ul class="footer_list">
+                                        <li><a href="#">Computers & Laptops</a></li>
+                                        <li><a href="#">Cameras & Photos</a></li>
+                                        <li><a href="#">Hardware</a></li>
+                                        <li><a href="#">Smartphones & Tablets</a></li>
+                                        <li><a href="#">TV & Audio</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% else %}
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3 footer_col">
+                        <div class="footer_column footer_contact">
+                            <div class="logo_container">
+                                <div class="logo"><a href="#">Khufu</a></div>
+                            </div>
+                            <div class="footer_title">{% trans 'Got a Question? ' %}
+                                <a href="/en/support/contactus">{% trans 'Call Us' %}</a>
+                            </div>
+                            <div class="footer_phone" style="direction: ltr;">+20 01141336724</div>
+                            <div class="footer_contact_text">
+                                <p>Block 6 Shrouk, Cairo, Egypt</p>
+                            </div>
+                            <div class="footer_social">
+                                <ul>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-facebook-f" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-twitter" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-youtube" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-google" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-instagram" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" target="_blank"><i
+                                                class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="footer_column">
+                            <div class="footer_title">wika it Fast</div>
+                            <ul class="footer_list">
+                                <li><a href="#">Computers & Laptops</a></li>
+                                <li><a href="#">Cameras & Photos</a></li>
+                                <li><a href="#">Hardware</a></li>
+                                <li><a href="#">Smartphones & Tablets</a></li>
+                                <li><a href="#">TV & Audio</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {% endif %}
+
+
+    <!-- Copyright -->
+
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                    <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
+                        <div class="copyright_content">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            All rights reserved | This Site is owned to
+                            <a href="{{ site_info.knicks_link }}" target="_blank">
+                                <span>KNICS</span>
+                                <img src="{{ site_info.knicks_logo }}" style="width: 30px;height: 30px"
+                                     aria-hidden="true" alt="knics"></a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </div>
+                        <div class="logos ml-sm-auto">
+                            <ul class="logos_list">
+                                <li><a href="https://www.mastercard.us/en-us.html"><img
+                                        src="{% static 'images/logos_1.png' %}" alt="logos_1" aria-hidden="true"></a>
+                                </li>
+                                <li><a href="https://usa.visa.com/"><img src="{% static 'images/logos_2.png' %}"
+                                                                         alt="logos_2" aria-hidden="true"></a></li>
+                                <!-- <li><a href="#"><img src="{% static 'images/logos_3.png' %}" alt="logos_3" aria-hidden="true"></a></li> -->
+                                <li><a href="https://www.mastercard.us/en-us.html"><img
+                                        src="{% static 'images/logos_4.png' %}" alt="logos_4" aria-hidden="true"></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endwith %}

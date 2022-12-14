@@ -1,0 +1,274 @@
+{% load staticfiles %}
+<!-- custom filter module -->
+{% load admin_extras %}
+{% load i18n %}
+{% load my_filters %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'styles/product_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/product_responsive.css' %}">
+{% if available_quantity == 0 %}
+    <div class="out-of-stock">
+        <div class="alert alert-danger">
+            <b>{% trans 'Sorry' %}!</b><span class="alert-link"> {% trans 'This product out of stock' %}</span>.
+        </div>
+    </div>
+{% endif %}
+{% if request.LANGUAGE_CODE == 'ar' or request.LANGUAGE_CODE == 'ar-eg' %}
+
+    <!-- Single Product -->
+    <div class="single_product" xmlns="http://www.w3.org/1999/html">
+        <div class="container">
+            <div class="row">
+                <!-- Images -->
+                <div class="col-lg-2 order-lg-1 order-2">
+                    <ul class="image_list">
+                        <li data-image="{{ product.main_img.url }}"><img alt="product img"
+                                                                         src="{{ product.main_img.url }}">
+                        </li>
+                        {% for img in imgs %}
+                            <li data-image="{{ img.image.url }}"><img alt="product img"
+                                                                      src="{{ img.image.url }}"
+                                                                      aria-hidden="true"></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Selected Image -->
+                <div class="col-lg-5 order-lg-2 order-1">
+                    <div class="image_selected"><img alt="product img" src="{{ product.main_img.url }}"
+                                                     aria-hidden="true"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-lg-5 order-3">
+                    <div class="product_description" style="padding-right: 22px">
+                        <div class="product_category"><a
+                                href="/ar/productHome/category/{{ product.category.id }}/">{{ product.category.name_ar }}</a>
+                        </div>
+                        <div class="product_name">{{ product.name_ar }}</div>
+                        <div class="product_category">{% trans 'model' %}: <b>{{ product.model_number }}</b>
+                        </div>
+                        <div class="product_category">{% trans 'provider' %}:
+                            <a><b>{{ product.provider }}</b></a>
+                        </div>
+                        <div class="rating_r rating_r_5 product_rating">
+                            {% for count in product.stars|to_int|times %}
+                                <i class="far fa-star" aria-hidden="true"></i>
+                            {% endfor %}
+                        </div>
+                        <div class="product_text">
+                            <p> {{ product.short_description_ar }}</p>
+                        </div>
+                        <div class="order_info">
+                            <div class="clearfix">
+                                <!-- Product Quantity -->
+                                {% if not available_quantity == -1 %}
+                                    <div class="product_quantity border-radius">
+                                        <p style="margin-top: 14px;">{% trans 'Available' %} = {{ available_quantity }}</p>
+                                    </div>
+                                {% else %}
+                                    <div class="product_quantity border-radius">
+                                        <p style="margin-top: 14px;">{% trans 'Available' %} = {{ product.max_quantity }}</p>
+                                    </div>
+                                {% endif %}
+
+                                <!-- Product Specifications -->
+                                <br>
+                                <!-- Product Price -->
+                                {% if request.session.site_info.country_short == "EG" %}
+                                    {% if discount %}
+                                        <div class="product_price">
+                                            {{ product.price|price_discount:discount.discount }} {% trans 'EGP' %}
+                                        </div>
+                                        <div class="">{% trans 'Discount' %}: <b style="color: yellowgreen">{{ discount.discount }}%</b>
+                                        </div>
+                                        <div class="old_price">{{ product.price }} {% trans 'EGP' %}</div>
+                                    {% else %}
+                                        <div class="product_price">{{ product.price }} {% trans 'EGP' %}</div>
+                                    {% endif %}
+                                {% else %}
+                                    {% with dollar_rate=request.session.site_info.dollar_rate %}
+                                        {% if discount %}
+                                            <div class="product_price">
+                                                ${{ product.price|price_discount:discount.discount|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen;font-size: 20px"> USD</span>
+                                            </div>
+                                            <div class="">Discount: <b
+                                                    style="color: yellowgreen">{{ discount.discount }}%</b>
+                                            </div>
+                                            <div class="old_price">
+                                                ${{ product.price|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen"> {% trans 'USD' %}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="product_price">
+                                                ${{ product.price|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen;font-size: 20px"> {% trans 'USD' %}</span>
+                                            </div>
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Long Description -->
+    <div class="highlights">
+        <div class="container">
+            <h4 class="" style="color: green">{% trans 'Description' %}</h4><br>
+            <div>
+                <img src="{{ product.long_desc_img.url }}" alt="product long desc img">
+            </div>
+        </div>
+    </div>
+
+    <!-- specifications -->
+    {% if spec_values %}
+        <div class="specifications">
+            <div class="container">
+                <h4 class="" style="color: green">{% trans 'Specifications' %}</h4>
+                <ul class="">
+                    {% for spec in spec_values %}
+                        <li>
+                            <b>{{ spec.spec_name.spec_name_ar }}</b>: <span>{{ spec.spec_value_ar }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-------------------------------------------------------------------->
+{% else %}
+    <!-- Single Product -->
+    <div class="single_product">
+        <div class="container">
+            <div class="row">
+                <!-- Images -->
+                <div class="col-lg-2 order-lg-1 order-2">
+                    <ul class="image_list">
+                        <li data-image="{{ product.main_img.url }}"><img alt="product img"
+                                                                         src="{{ product.main_img.url }}">
+                        </li>
+                        {% for img in imgs %}
+                            <li data-image="{{ img.image.url }}"><img alt="product img"
+                                                                      src="{{ img.image.url }}">
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Selected Image -->
+                <div class="col-lg-5 order-lg-2 order-1">
+                    <div class="image_selected"><img alt="product img" src="{{ product.main_img.url }}"
+                                                     aria-hidden="true"></div>
+                </div>
+
+                <!-- Description -->
+                <div class="col-lg-5 order-3">
+                    <div class="product_description">
+                        <div class="product_category"><a
+                                href="/en/productHome/category/{{ product.category.id }}/">{{ product.category }}</a>
+                        </div>
+                        <div class="product_name">{{ product.name }}</div>
+                        <div class="product_category">{% trans 'model' %}: <b>{{ product.model_number }}</b>
+                        </div>
+                        <div class="product_category">{% trans 'provider' %}:
+                            <a><b>{{ product.provider }}</b></a>
+                        </div>
+                        <div class="rating_r rating_r_5 product_rating">
+                            {% for count in product.stars|to_int|times %}
+                                <i class="far fa-star" aria-hidden="true"></i>
+                            {% endfor %}
+                        </div>
+                        <div class="product_text">
+                            <p> {{ product.short_description }} </p>
+                        </div>
+                        <div class="order_info">
+                            <div class="clearfix">
+                                <!-- Product Quantity -->
+                                {% if not available_quantity == -1 %}
+                                    <div class="product_quantity border-radius"><p style="margin-top: 14px;">
+                                        {% trans 'Available'  %} = {{ available_quantity }}</p></div>
+                                {% else %}
+                                    <div class="product_quantity border-radius"><p style="margin-top: 14px;">{% trans 'Available'  %} = {{ product.max_quantity }}</p></div>
+                                {% endif %}
+
+
+                                <!-- Product Price -->
+                                {% if request.session.site_info.country_short == "EG" %}
+                                    {% if discount %}
+                                        <div class="product_price">
+                                            {{ product.price|price_discount:discount.discount }} EGP
+                                        </div>
+                                        <div class="">Discount: <b
+                                                style="color: yellowgreen">{{ discount.discount }}%</b>
+                                        </div>
+                                        <div class="old_price">{{ product.price }} {% trans 'EGP' %}</div>
+                                    {% else %}
+                                        <div class="product_price">{{ product.price }} {% trans 'EGP' %}</div>
+                                    {% endif %}
+                                {% else %}
+                                    {% with dollar_rate=request.session.site_info.dollar_rate %}
+                                        {% if discount %}
+                                            <div class="product_price">
+                                                ${{ product.price|price_discount:discount.discount|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen;font-size: 20px"> USD</span>
+                                            </div>
+                                            <div class="">Discount: <b
+                                                    style="color: yellowgreen">{{ discount.discount }}%</b>
+                                            </div>
+                                            <div class="old_price">
+                                                ${{ product.price|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen"> {% trans 'USD' %}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="product_price">
+                                                ${{ product.price|convert_money:dollar_rate }}
+                                                <span style="color:yellowgreen;font-size: 20px"> {% trans 'USD' %}</span>
+                                            </div>
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="highlights">
+        <div class="container">
+            <h4 class="">Long Description</h4><br>
+            <div>
+                <img src="{{ product.long_desc_img.url }}" alt="product long desc img">
+            </div>
+        </div>
+    </div>
+
+    <!-- specifications -->
+    {% if spec_values %}
+        <div class="specifications">
+            <div class="container">
+                <h4 class="">Specifications</h4>
+                <ul class="">
+                    {% for spec in spec_values %}
+                        <li>
+                            <b>{{ spec.spec_name }}</b>: <span>{{ spec.spec_value }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+
+{% endif %}
+<script src="{% static 'js/product.js' %}"></script>

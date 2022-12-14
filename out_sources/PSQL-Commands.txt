@@ -1,0 +1,39 @@
+
+PSQL-COMMANDS:
+#---------------------------------------------------------------------------------
+
+# Create an user role:
+sudo -u postgres psql
+CREATE DATABASE myproject;
+CREATE USER myprojectuser WITH PASSWORD 'password';
+ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+ALTER ROLE myprojectuser SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+ALTER USER myprojectuser WITH SUPERUSER;
+
+# An another way to create a Role
+CREATE ROLE khufu WITH
+	LOGIN
+	SUPERUSER
+	CREATEDB
+	CREATEROLE
+	INHERIT
+	REPLICATION
+	CONNECTION LIMIT -1
+	VALID UNTIL '2090-01-30T12:08:46+02:00' 
+	PASSWORD 'xxxxxx';
+
+# psql user login
+psql -U user_name -h 127.0.0.1 database_name
+
+SHOW client_encoding;
+SET CLIENT_ENCODING TO 'utf8';
+
+# copy with column name
+COPY table_name TO 'C:\tmp\persons_db.csv' (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
+COPY table_name FROM 'C:\tmp\persons_db.csv' (FORMAT CSV, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
+
+# copy without column name
+COPY table_name TO 'C:\tmp\persons_db.csv' (DELIMITER E',', FORMAT CSV, NULL '', ENCODING 'UTF8');
+COPY table_name FROM 'C:\tmp\persons_db.csv' (DELIMITER E',', FORMAT CSV, NULL '', ENCODING 'UTF8');
